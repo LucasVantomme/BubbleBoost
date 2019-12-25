@@ -5,17 +5,21 @@ session_start();
 function connexpdo($base, $param) 
 {
     include_once($param.'.php');
-    $dsn="mysql:host=".MYHOST.";dbname=".$base.";charset=UTF8";
-    $user=MYUSER;
-    $pass=MYPASS;
-    try 
-    {
-        $idcom = new PDO($dsn,$user,$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        $idcom->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $idcom;
-    } 
-    catch(PDOException $e) {
-        die('Erreur : ' . $e->getMessage());
+    $connexion = false;
+    
+    for($i=0; $i<count(PARAMETRES) && $connexion==false; $i++) {
+        $host = PARAMETRES[$i]["MYHOST"];
+        $user = PARAMETRES[$i]["MYUSER"];
+        $pass = PARAMETRES[$i]["MYPASS"];
+        $dsn = "mysql:host=".$host.";dbname=".$base.";charset=UTF8";
+        try 
+        {
+            $idcom = new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            return $idcom;
+        } 
+        catch(PDOException $e) {
+            //
+        }
     }
 }
 
