@@ -30,7 +30,7 @@ include 'assets/include/header.php';
 	</div>
 
 	<div class="col-xs-3 col-md-6">
-		<h2>BuubbleBoost, C'est quoi ? </h2>
+		<h2>BubbleBoost, C'est quoi ? </h2>
 		<div class="row">
 			<div class="col">
 				<h3>Titre 1</h3>
