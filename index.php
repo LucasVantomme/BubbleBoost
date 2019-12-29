@@ -9,16 +9,16 @@ include 'assets/include/header.php';
 		<div class="tile is-child box">
 			
 			<div class="columns">
-				<div class="column is-narrow">
-					<div class="container" style="width: 500px;">
+				<div class="column">
+					<div class="container">
 						<p class="title">Qu'est-ce que BubbleBoost ?</p>
 						<p>BubbleBoost est un site <strong>communautaire</strong> français qui permet aux artistes/dessinateurs/auteurs <strong>débutants ou avancés</strong> de gagner en <strong>visibilité</strong> auprès d'un public fan de BD et de Comics en tout genre.</p>
 						<p>L'inscription est <strong>gratuite</strong>, vous pouvez choisir d'être uniquement <strong>lecteur</strong> ou de devenir <strong>artiste en publiant</strong> vos créations.</p>
 						<!--<a class="btn btn-outline-danger btn-lg">Découvrir</a>-->
 					</div>	
 				</div>
-				<div class="column">
-    				<div class="container">
+				<div class="column is-narrow">
+    				<div class="container" style="width: 300px;">
 						<div class="puzzle-slider puzzle-slider-1">
 							<div class="slides">
 								<img class="item" src="assets/images/5.jpg" alt="image">
