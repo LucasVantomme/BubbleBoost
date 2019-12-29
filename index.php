@@ -3,7 +3,6 @@ $page = 'Accueil';
 $titre = 'BubbleBoost - Page d\'Accueil';
 include 'assets/include/header.php'; 
 ?>
-
 <div class="row">
 	<div class="col-4 titre">
 		<div class="titre">
@@ -48,6 +47,56 @@ include 'assets/include/header.php';
 			<div class="col">
 				<h3>Titre 4</h3>
 				<p>lddflnfln</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tile is-ancestor">
+	<div class="tile is-parent">
+		<div class="tile is-child box">
+			<p class="title">Qu'est-ce que BubbleBoost ?</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+		</div>
+	</div>
+</div>
+<div class="tile is-ancestor">
+	<div class="tile is-parent">
+		<div class="tile is-child box">
+			<p class="title">Pourquoi BubbleBoost ?</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+		</div>
+	</div>
+</div>
+<div class="tile is-ancestor">
+	<div class="tile is-parent">
+		<div class="tile is-child box">
+			<p class="title">Nous suivre</p>
+			<div class="columns">
+				<div class="column">
+					<button class="button is-link is-large"> 
+						<span class="icon">
+							<i class="fab fa-facebook"></i>
+						</span>
+						<span>Facebook</span>
+					</button>
+				</div>
+				<div class="column">
+					<button class="button is-primary is-large"> 
+						<span class="icon">
+							<i class="fab fa-twitter"></i>
+						</span>
+						<span>Twitter</span>
+					</button>
+				</div>
+				<div class="column">
+					<button class="button is-inverted is-large"> 
+						<span class="icon">
+							<i class="fab fa-instagram"></i>
+						</span>
+						<span>Instagram</span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

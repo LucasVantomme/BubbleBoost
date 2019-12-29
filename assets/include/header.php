@@ -30,10 +30,10 @@ include_once 'fonctions.php';
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item buttoninscrip">
-						<a class="btn btn-dark" href="inscription.php">Inscription</a>
+						<a class="button is-black is-rounded" href="inscription.php">Inscription</a>
 					</li>
 					<li class="nav-item buttonconnex">
-						<a class="btn btn-outline-dark" href="connexion.php">Connexion</a>
+						<a class="button is-rounded is_white is-outlined is-active" href="connexion.php">Connexion</a>
 					</li>
 				</ul>
 			</div>
