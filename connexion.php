@@ -2,6 +2,7 @@
 $page = 'Connexion';
 $titre = 'BubbleBoost - Se connecter';
 include 'assets/include/header.php'; 
+
 ?>
 
 <?php
@@ -25,7 +26,7 @@ if(isset($_POST['connexion'])) {
 					<?php } ?>
 					<form method="POST" action="connexion.php">
 						<div class="field">
-							<label for="label">Email</label>
+							<label for="label">Pseudo</label>
 							<p class="control has-icons-left has-icons-right">
 								<input class="input" type="text" name="identifiant" placeholder="Pseudo ou Adresse e-mail" />
 								<span class="icon is-small is-left">
