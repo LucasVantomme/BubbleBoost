@@ -24,16 +24,32 @@ function form_connexion($post, $idcom) {
                 setCookie('password', $membre['password'], (time()+60*60*24*60));
                 echo '<script>setTimeout(function () { window.location.href = "index.php"; }, 2000);</script>';
 				
-				return array(true, '<div class="notification is-success"><button class="delete"></button>Connexion réussie ! Vous allez être redirigés.</div>');
+				return array(true, '<article class="message is-success">
+										<div class="message-body">
+											Connexion réussie ! Vous allez être redirigés.
+										</div>
+									</article>');
             }
             else
-                return array(false, '<div class="notification is-danger"><button class="delete"></button>Impossible de se connecter. Vérifiez vos identifiants.</div>');
+				return array(false, '<article class="message is-danger">
+										<div class="notification is-danger">
+											Impossible de se connecter. Vérifiez vos identifiants.
+										</div>
+									</article>');
         }
         else
-        	return array(false, '<div class="notification is-danger"><button class="delete"></button>Impossible de se connecter. Vérifiez vos identifiants.</div>');
+			return array(false, '<article class="message is-danger">
+									<div class="message-body">
+										Impossible de se connecter. Vérifiez vos identifiants.
+									</div>
+								</article>');
 	}
 	else
-        return array(false, '<div class="notification is-danger"><button class="delete"></button>Impossible de se connecter. Vérifiez vos identifiants.</div>');
+		return array(false, '<article class="message is-danger">
+								<div class="message-body">
+									Impossible de se connecter. Vérifiez vos identifiants.
+								</div>
+							</article>');
 }
 
 // FORMULAIRE INSCRIPTION
@@ -121,7 +137,7 @@ function form_inscription($post, $idcom) {
     {
     	$post['password_hash'] = password_hash($post['password'], PASSWORD_DEFAULT);
         if (strlen($post['password']) < 6) 
-        	return "Votre mot de passe doit faire au moins 6 caractères";
+        	$erreur[] = "Votre mot de passe doit faire au moins 6 caractères";
     	if($post['password'] != $post['password2'])
         	$erreur[] = "Les mots de passe ne sont pas identiques";
     }
@@ -131,11 +147,11 @@ function form_inscription($post, $idcom) {
     // On réalise, ou non, l'inscription
     if(!empty($erreur)) 
     {
-        $erreurInscription = '<article class="message is-danger"><div class="message-body"></div>';
+		$erreurInscription = '<article class="message is-danger"><div class="message-body">';
         foreach($erreur as $err)
             $erreurInscription .= $err.'<br />';
         unset($erreur);
-        $erreurInscription .= '</article>';
+        $erreurInscription .= '</div></article>';
         return array(false, $erreurInscription);
     }
     else {
@@ -153,7 +169,14 @@ function form_inscription($post, $idcom) {
         	$subject = "Bienvenue sur BubbleBoost !";
 	        $body = '<p>Bienvenue sur BubbleBoost, '.$post['username'].' !</p><p>Grâce à votre compte, vous allez enfin pouvoir accéder à toutes les fonctionnalités du site !</p><p>Vous ne savez pas par où commencer ? Dans votre profil, ajoutez par exemple une photo de profil ! Pourquoi ne pas remplir quelques informations supplémentaires en plus ? Ensuite, regardez le catalogue de mangas et BDs que vous allez pouvoir suivre ou commenter ! Bref, il y a tant de chose à faire et à découvrir sur BubbleBoost.</p><p>Merci de vous être enregistré, et à bientôt.</p>';
 	        sendemail($post['email'], $subject, $body);
-	        return array(true, '<article class="message is-success"><div class="message-header"><p>Bravo</p><button class="delete" arial-label="delete"></button></div><div class="message-body">Inscription réussie ! Vous pouvez désormais vous connecter.</div></article>');
+			return array(true, '<article class="message is-success">
+									<div class="message-header">
+										<p>Bravo</p>
+									</div>
+									<div class="message-body">
+										Inscription réussie ! Vous pouvez désormais vous connecter.
+									</div>
+								</article>');
         }
     }
 }
@@ -187,15 +210,34 @@ function form_oubliemdp1($post, $idcom) {
         	$subject = "Mot de passe oublié";
 			$body = '<p>Bonjour '.$membre['username'].',</p><p>Nous avons reçu une demande de réinitialisation de votre mot de passe BubbleBoost.</p><p><a href="'.$_SERVER['HTTP_REFERER'].'?keyuniq='.$keyuniq.'" target="_blank" rel="noopener noreferrer" style="color:#3b5998; text-decoration:none">Cliquez ici pour changer votre mot de passe</a>.</p><p><b>Vous n\'avez pas demandé ce changement ?</b><br>Si vous n\'avez pas demandé de nouveau mot de passe, ignorez simplement ce message.</p>';
 			if(sendemail($membre['mail'], $subject, $body))
-				return array(true, '<aritcle class="message is-success"><div class="message-body">Si l\'adresse e-mail correspond à un compte de BubbleBoost, un e-mail vient d\'être envoyé.</div></article>');
+				return array(true, '<aritcle class="message is-success">
+										<div class="message-body">
+											Un e-mail de réinitialisation vient d\'être envoyé.
+										</div>
+									</article>');
 			else
-				return array(true, '<aritcle class="message is-success"><div class="message-body">Si l\'adresse e-mail correspond à un compte de BubbleBoost, un e-mail vient d\'être envoyé.</div></article>');
+				return array(true, '<aritcle class="message is-success">
+										<div class="message-body">
+											Un e-mail de réinitialisation vient d\'être envoyé.
+										</div>
+									</article>');
 		}
 		else
-			return array(true, '<aritcle class="message is-success"><div class="message-body">Si l\'adresse e-mail correspond à un compte de BubbleBoost, un e-mail vient d\'être envoyé.</div></article>');
+			return array(true, '<aritcle class="message is-success">
+									<div class="message-body">
+										Un e-mail de réinitialisation vient d\'être envoyé.
+									</div>
+								</article>');
 	}
 	else
-		return array(false, '<article class="message is-danger"><div class="message-header"><p>Erreur</p><button class="delete" aria-label="delete"></button></div><div class="message-body">Veuillez remplir le champ Adresse e-mail</div></article>');
+		return array(false, '<article class="message is-danger">
+								<div class="message-header">
+									<p>Erreur</p>
+								</div>
+								<div class="message-body">
+									Veuillez remplir le champ Adresse e-mail
+								</div>
+							</article>');
 }
 
 // FORMULAIRE MOT DE PASSE OUBLIÉ 2
@@ -215,12 +257,16 @@ function form_oubliemdp2($post, $idcom) {
         $req->bindValue(':token', $_GET['keyuniq'], PDO::PARAM_STR);
         $req->execute();
 		echo '<script>setTimeout(function () { window.location.href = "connexion.php"; }, 2000);</script>';
-		return array(true, '<aritcle class="message is-success"><div class="message-body">Mot de passe changé avec succès ! Vous pouvez désormais vous connecter.</div></article>');
+		return array(true, '<aritcle class="message is-success">
+								<div class="message-body">
+									Mot de passe changé avec succès ! Vous pouvez désormais vous connecter.
+								</div>
+							</article>');
 	}
 	else {
-		$result = '<article class="message is-danger"><div class="message-body"></div>';
+		$result = '<article class="message is-danger"><div class="message-body">';
 		for($i=0; $i<sizeof($erreur); $i++) $result .= $erreur[$i].'<br />';
-		$result .= '</article>';
+		$result .= '</div></article>';
 		return array(false, $result);
 		unset($erreur);
 	}
