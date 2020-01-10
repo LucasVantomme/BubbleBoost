@@ -11,3 +11,23 @@ hr {
     width: 640px !important;
     text-align: center !important;
 }
+
+.contentModal {
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 0 !important;
+}
+
+.nameArtise {
+    color: red;
+}
+
+.publications {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+
+.displayAddChapter {
+    display: none !important;
+}

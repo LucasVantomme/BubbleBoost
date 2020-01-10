@@ -11,7 +11,6 @@ include_once 'fonctions.php';
 		<meta charset="UTF-8">
 		<title><?php echo $titre; ?></title>
 		<link rel="stylesheet" href="/Bubbleboost/assets/css/styles.css">
-		<link rel="stylesheet" href="/Bubbleboost/assets/css/mes-publications.css">
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">

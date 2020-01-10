@@ -1,9 +1,10 @@
 <?php 
 $page = 'Accueil';
 $titre = 'BubbleBoost - Mes publications';
-include '../assets/include/header.php';
+include '../assets/include/header-connect.php';
 
 $displayModal = false;
+$connected = true;
 ?>
 
 <?php
@@ -22,8 +23,9 @@ if(isset($_POST['createStory'])) {
 
 <div class="my-publications">
     <div class="title">
-        <h1 class="title">Mes publications</h1>
+        <h2 class="title is-2"><?php echo ($connected == true) ? "Mes p" : "P"; ?>ublications</h2>
     </div>
+    <?php echo ($connected == true) ? "" : "<p>de <span class='nameArtise'>ARTISTE</span></p>"; ?>
     <hr>
 
     <div class="histoire">
@@ -32,6 +34,19 @@ if(isset($_POST['createStory'])) {
         </div>
         <div class="histoire publications">
             <p>Liste publications</p>
+            <div class="file is-boxed <?php echo ($connected == true) ? "" : "displayAddChapter"; ?>">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Ajouter un nouveau chapitre
+                    </span>
+                    </span>
+                </label>
+            </div>
         </div>
     </div>
     <hr>
@@ -42,13 +57,26 @@ if(isset($_POST['createStory'])) {
         </div>
         <div class="histoire publications">
             <p>Liste publications</p>
+            <div class="file is-boxed <?php echo ($connected == true) ? "" : "displayAddChapter"; ?>">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Ajouter un nouveau chapitre
+                    </span>
+                    </span>
+                </label>
+            </div>
         </div>
     </div>
     <hr>
 
     <form method="POST" action="mes-publications.php">
         <div class="button-new-story">
-            <button class="button is-link is-rounded" name="newStory">Créer une nouvelle bulle</button>
+            <?php echo ($connected == true) ? "<button class='button is-link is-rounded' name='newStory'>Créer une nouvelle bulle</button>" : ""; ?>
         </div>
     </form>
 </div>
@@ -62,7 +90,7 @@ if(isset($_POST['createStory'])) {
                 <button class="delete" aria-label="close" name="closeNewStory"></button>
             </header>
             <section class="modal-card-body">
-                <div class="content">
+                <div class="contentModal">
                     <div class="field">
                         <label class="label">Titre</label>
                         <div class="control">
@@ -72,7 +100,7 @@ if(isset($_POST['createStory'])) {
                     <div class="field">
                         <label class="label">Synopsis</label>
                         <div class="control">
-                            <input class="input" type="text" placeholder="">
+                            <textarea class="textarea"></textarea>
                         </div>
                     </div>
                     <div class="field">
