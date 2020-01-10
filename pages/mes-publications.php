@@ -1,10 +1,17 @@
-<?php 
+<?php
+include '../assets/include/bdd-connect.php';
+
 $page = 'Accueil';
 $titre = 'BubbleBoost - Mes publications';
 include '../assets/include/header-connect.php';
 
 $displayModal = false;
-$connected = true;
+
+if($_SESSION['id']) {
+    $connected = true;
+} else {
+    $connected = false;
+}
 ?>
 
 <?php
