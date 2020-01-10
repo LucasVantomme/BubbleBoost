@@ -137,7 +137,7 @@ function form_inscription($post, $idcom) {
     {
     	$post['password_hash'] = password_hash($post['password'], PASSWORD_DEFAULT);
         if (strlen($post['password']) < 6) 
-        	return "Votre mot de passe doit faire au moins 6 caractères";
+        	$erreur[] = "Votre mot de passe doit faire au moins 6 caractères";
     	if($post['password'] != $post['password2'])
         	$erreur[] = "Les mots de passe ne sont pas identiques";
     }
