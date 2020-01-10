@@ -80,7 +80,7 @@ if(isset($_POST['inscription'])) {
 							</p>
 						</div>
 						<div class="field">
-							<label for="label">Nationnalité</label>
+							<label for="label">Nationalité</label>
 							<p class="control has-icons-left">
 								<!--<input class="input" type="text" name="country" placeholder="Pays"/>-->
 								<span class="select">
