@@ -1,0 +1,13 @@
+hr {
+    background-color: #7d7c7c !important;
+    border-radius: 50px;
+}
+
+.my-publications .button-new-story {
+    text-align: center;
+}
+
+.footerModal {
+    width: 640px !important;
+    text-align: center !important;
+}
