@@ -71,7 +71,7 @@ if (!isset($_SESSION['id']))
 }
 else {
     // S'il tente d'accéder à une page où l'authentification ne doit pas encore être faite
-    if (in_array($page, array('Connexion', 'Inscription', 'Mot de passe oublié'))) {
+    if (isset($page) AND in_array($page, array('Connexion', 'Inscription', 'Mot de passe oublié'))) {
         // Fermeture de session
         session_unset();
         session_destroy();

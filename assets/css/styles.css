@@ -197,7 +197,6 @@ footer {
     background-color:white;
     display:table-row!important;
     flex-direction: column;
-    height: 100px;
 }
 footer > div {
     display: flex;

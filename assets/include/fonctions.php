@@ -271,4 +271,78 @@ function form_oubliemdp2($post, $idcom) {
 		unset($erreur);
 	}
 }
+
+// COMMENTER UN CHAPITRE
+function add_commentaire($post, $idcom) {
+    if (!empty($post['commentaire'])) {
+        $req = $idcom->prepare('INSERT INTO `comment` (`id`, `id_user`, `id_chapter`, `comment_date`, `comment`) VALUES (NULL, :id_user, :id_chapitre, CURRENT_TIMESTAMP, :commentaire)');
+        $req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':id_chapitre', $_GET['id'], PDO::PARAM_INT);
+        $req->bindValue(':commentaire', $post['commentaire'], PDO::PARAM_STR);
+        $req->execute();
+    }
+}
+
+// SUPPRIMER UN COMMENTAIRE D'UN CHAPITRE
+function del_commentaire($post, $idcom) {
+    if (!empty($post['supprimer'])) {
+
+        // On vérifie de qui est le commentaire
+        $req = $idcom->prepare('SELECT id_user FROM comment WHERE id = :id');
+        $req->bindValue(':id', $post['supprimer'], PDO::PARAM_INT);
+        $req->execute();
+        $id_user = $req->fetch()['id_user'];
+
+        // On vérifie qui est celui qui veut supprimer
+        $req = $idcom->prepare('SELECT role FROM user WHERE id = :id');
+        $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $req->execute();
+        $role = $req->fetch()['role'];
+
+        // Si le membre est admin ou auteur du commentaire, on supprime
+        if($role == 'admin' OR $id_user == $_SESSION['id']) {
+            $req = $idcom->prepare('DELETE FROM comment WHERE id = :id');
+            $req->bindValue(':id', $post['supprimer'], PDO::PARAM_INT);
+            $req->execute();
+        }
+    }
+}
+
+// SUIVRE UNE HISTOIRE
+function liker($post, $idcom) {
+    // On vérifie de qui est l'histoire
+    $req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id AND id_story = story.id');
+    $req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+    $req->execute();
+    $tmp = $req->fetch();
+    $id_user = $tmp['id_user'];
+    $id_story = $tmp['id_story'];
+
+    // Si le membre n'est pas l'auteur, il peut liker
+    if($id_user != $_SESSION['id']) {
+        $req = $idcom->prepare('INSERT INTO `bulles_suivies` (`id_user`, `id_story`) VALUES (:id_user, :id_story)');
+        $req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':id_story', $id_story, PDO::PARAM_INT);
+        $req->execute();
+    }
+}
+
+// NE PLUS SUIVRE UNE HISTOIRE
+function disliker($post, $idcom) {
+    // On vérifie de qui est l'histoire
+    $req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id_chapter AND id_story = story.id');
+    $req->bindValue(':id_chapter', $_GET['id'], PDO::PARAM_INT);
+    $req->execute();
+    $tmp = $req->fetch();
+    $id_user = $tmp['id_user'];
+    $id_story = $tmp['id_story'];
+
+    // Si le membre n'est pas l'auteur, il peut disliker
+    if($id_user != $_SESSION['id']) {
+        $req = $idcom->prepare('DELETE FROM bulles_suivies WHERE id_user = :id_user AND id_story = :id_story');
+        $req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':id_story', $id_story, PDO::PARAM_INT);
+        $req->execute();
+    }
+}
 ?>
