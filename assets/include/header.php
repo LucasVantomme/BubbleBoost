@@ -7,17 +7,23 @@ include_once 'fonctions.php';
 
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title><?php echo $titre; ?></title>
-		<link rel="stylesheet" href="/BubbleBoost/assets/css/styles.css">
-    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
-		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title><?php echo $titre; ?></title>
+	<link rel="stylesheet" href="/BubbleBoost/assets/css/styles.css">
+	<?php if($page == "Publications") { ?> <link rel="stylesheet" href="/BubbleBoost/assets/css/mes-publications.css"> <?php } ?>
+	<?php if($page == "Accueil") { ?> <link rel="stylesheet" href="/BubbleBoost/assets/css/accueil.css"> <?php } ?>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
 
-	<body>
+<body>
+	<?php
+	// Si le membre n'est pas connecté 
+	if(!isset($_SESSION['id'])) {
+		?>
 		<nav class="navbar navbar-expand-lg navbar-light logo">
 			<a class="navbar-brand" href="/BubbleBoost/index.php">
 				<img class="d-inline-block align-top" src="/BubbleBoost/assets/images/logo.png">
@@ -38,5 +44,31 @@ include_once 'fonctions.php';
 				</ul>
 			</div>
 		</nav>
+		<?php
+	}
+	// Si le membre est connecté
+	else 
+	{
+		?>
+		<nav class="navbar navbar-expand-lg navbar-light logo">
+			<a class="navbar-brand" href="/BubbleBoost/index.php">
+				<img class="d-inline-block align-top" src="/BubbleBoost/assets/images/logo.png">
+				<span>BubbleBoost</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<div class="content">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item buttonconnex">
+						<a class="button is-rounded is_white is-outlined is-active" href="connexion.php">Deconnexion</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<?php
+	}
+	?>
+
+	<div class="content">

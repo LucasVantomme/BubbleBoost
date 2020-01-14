@@ -1,7 +1,7 @@
 <?php
 include '../assets/include/bdd-connect.php';
 
-$page = 'Accueil';
+$page = 'Publications';
 $titre = 'BubbleBoost - Mes publications';
 include '../assets/include/header-connect.php';
 
