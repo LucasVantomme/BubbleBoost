@@ -75,7 +75,7 @@ include 'assets/include/header.php';
 				</div>
 				<div class="column">
 					<h1 class="mb-0"><?php echo $story['title']; ?></h1>
-					<h2 class="mt-1 mb-4 author_story">par <a href="profil?id=<?php echo $story['id_user']; ?>"><?php echo $story['username']; ?></a></h2>
+					<h2 class="mt-1 mb-4 author_story">par <a href="profil?id=<?php echo $chapter['id_user']; ?>"><?php echo $chapter['firstname'].' '.$chapter['lastname']; ?></a></h2>
 					<p><strong><?php echo $story['nb_suivi']; ?> personne<?php echo $story['nb_suivi']>1?'s':''; ?></strong> <?php echo $story['nb_suivi']>1?'suivent':'suit'; ?> cette histoire</p>
 					<p><strong>Genre<?php echo count($story['genre'])>1?'s':''; ?> :</strong> <?php echo implode($story['genre'], ', '); ?></p>
 					<p><strong>Date de publication :</strong> <?php echo strftime("%d/%m/%G", strtotime($story['publication_date'])); ?></p>
