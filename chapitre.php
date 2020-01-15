@@ -138,8 +138,9 @@ include 'assets/include/header.php';
 				<div class="column">
 					<?php 
 					$iterator = 1;
-					$glob = glob('assets/images/story/'.$chapter['id_story'].'/'.$chapter['chapitre'].'/[0-9]*.*');
-					foreach ($glob as $fichier) 
+					$items = array_slice(glob('assets/images/story/'.$chapter['id_story'].'/'.$chapter['chapitre'].'/[0-9]*.*'), 0);
+					natsort($items);
+					foreach ($items as $fichier) 
 					{ 
 						?>
 						<div class="mySlides">
