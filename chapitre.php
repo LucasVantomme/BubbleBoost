@@ -95,7 +95,7 @@ include 'assets/include/header.php';
 	.slideshow-container { position: relative; margin: auto; }
 	.prev, .next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -22px; color: white; font-weight: bold; font-size: 18px; transition: 0.6s ease; border-radius: 0 3px 3px 0; user-select: none; }
 	.prev:hover, .next:hover { background-color: rgba(0,0,0,0.8); }
-	.numbertext { color: #f2f2f2; font-size: 12px; padding: 10px 12px; position: absolute; }
+	.numbertext { color: gray; font-size: 12px; padding-top: 10px; position: absolute; right: 0; left: 0; margin: auto; width: 300px; text-align: center; }
 	.media-left { margin-bottom: 0!important; }
 	.dropdown-button, .dropdown-content button { border: 0; }
 	.dropdown-menu, .dropdown-content { padding: 0; }
@@ -144,7 +144,7 @@ include 'assets/include/header.php';
 					{ 
 						?>
 						<div class="mySlides">
-							<div class="numbertext"><?php echo $iterator++; ?> / <?php echo count($glob); ?></div>
+							<div class="numbertext"><?php echo $iterator++; ?> / <?php echo count($items); ?></div>
 							<img src="<?php echo $fichier; ?>" class="cover_story" />
 						</div>
 						<?php 
