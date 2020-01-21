@@ -42,6 +42,27 @@
 			</script>
 			<?php
 		}
+		elseif($page == 'Publications') {
+			?>
+			<script>
+				$("#modal-histoire").click(function() {
+					$(".modal").addClass("is-active");  
+				});
+
+				$(".close-modal").click(function() {
+					$(".modal").removeClass("is-active");
+				});
+
+				const fileInput = document.querySelector('#story-file input[type=file]');
+				fileInput.onchange = () => {
+					if (fileInput.files.length > 0) {
+						const fileName = document.querySelector('#story-file .file-name');
+						fileName.textContent = fileInput.files[0].name;
+					}
+				}
+			</script>
+			<?php
+		}
 		?>
 
 	</body>

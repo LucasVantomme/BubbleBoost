@@ -3,7 +3,7 @@ include '../assets/include/bdd-connect.php';
 
 $page = 'Publications';
 $titre = 'BubbleBoost - Mes publications';
-include '../assets/include/header-connect.php';
+include '../assets/include/header.php';
 
 $displayModal = false;
 
