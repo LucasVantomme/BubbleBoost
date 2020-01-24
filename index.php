@@ -109,6 +109,17 @@ if(!isset($_SESSION['id']))
 else
 {
 	?>
+	<style>
+		.flex-center
+		{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
+	
+
+
 	<center>
 		<div class="field">
 			<p class="control has-icons-left">
@@ -120,151 +131,149 @@ else
 		</div>
 	</center>
 
-	<div id="demo" class="carousel slide" data-ride="carousel">
-		<h1>Reprendre la lecture</h1> 
-		<!-- The slideshow -->
-		<div class="container carousel-inner no-padding">
-			<div class="carousel-item active">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div> 
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Elle était si forte</h3>
-					<p>jbdjkd</p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Aventure</h3>
-					<p>jbdjkd</p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Titre</h3>
-					<p>jbdjkd</p>
-				</div>   
+	<h1>Reprendre la lecture</h1> 
+	<?php
+	// Liste des dernières sorties
+	$req = $idcom->prepare('SELECT chapter.id as id, id_story, chapter.chapitre as chapitre, chapter.cover as cover, story.title as titre FROM chapter, story WHERE id_story = story.id AND id_story IN (SELECT id_story FROM bulles_suivies WHERE id_user='.$_SESSION['id'].') ORDER BY chapter.id DESC LIMIT 20');
+	$req->execute();
+	$lstChapters = $req->fetchAll();
+	?>
+	<div class="<?php echo !empty($lstChapters)?'columns ':''; ?>slideshow-container">
+		<?php
+		if(empty($lstChapters))
+		{
+			?>
+			<div class="mySlides1">
+				Vous ne suivez aucune histoire pour le moment...
 			</div>
-			<div class="carousel-item">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Titre</h3>
-					<p>jbdjkd</p>
-				</div>    
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/0.jpg">
-					<h3>Titre</h3>
-					<p>jbdmkfn</p>
-				</div>    
+			<?php
+		}
+		else
+		{
+			?>
+			<div class="column flex-center is-1"><a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a></div>
+			<div class="column">
+				<?php 
+				for($i=0; $i<count($lstChapters); $i=$i+5) 
+				{
+					?>
+					<div class="columns is-multiline mySlides1">
+						<?php 
+						for($j=0; $j<5; $j++)
+						{
+							if(isset($lstChapters[$i+$j]))
+							{
+								$chapter = $lstChapters[$i+$j];
+								?>
+								<div class="column is-one-fifth cover_chapter">
+									<a href="chapitre.php?id=<?php echo $chapter['id']; ?>">
+										<img class="mb-1" src="assets/images/story/<?php echo $chapter['id_story']; ?>/<?php echo $chapter['chapitre']; ?>/<?php echo $chapter['cover']; ?>" />
+										<p class="mb-0"><b><?php echo $chapter['titre']; ?></b></p>
+										<p class="mb-0">Chapitre <?php echo $chapter['chapitre']; ?></p>
+									</a>
+								</div>
+								<?php
+							}
+						}
+						?>
+					</div>
+					<?php 
+				}
+				?>
 			</div>
-		</div>
-		<!-- Left and right controls -->
-		<a class="carousel-control-prev" href="#demo" data-slide="prev">
-			<span class="carousel-control-prev-icon"></span>
-		</a>
-		<a class="carousel-control-next" href="#demo" data-slide="next">
-			<span class="carousel-control-next-icon"></span>
-		</a>
+			<div class="column flex-center is-1"><a class="next" onclick="plusSlides(1, 0)">&#10095;</a></div>
+			<?php
+		}
+		?>
 	</div>
+
 	<hr>
-	<div id="demo2" class="carousel slide" data-ride="carousel">
-		<h1>Les plus populaires</h1> 
-		<!-- The slideshow -->
-		<div class="container carousel-inner no-padding">
-			<div class="carousel-item active">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div> 
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Elle était si forte</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Aventure</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Titre</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-			</div>
-			<div class="carousel-item">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div>    
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/1.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-			</div>
+
+	<h1>Les plus populaires</h1> 
+	<?php
+	// Liste des dernières sorties
+	$req = $idcom->prepare('SELECT chapter.id as id, id_story, chapter.chapitre as chapitre, chapter.cover as cover, story.title as titre FROM chapter, story WHERE id_story = story.id ORDER BY chapter.period_views DESC, chapter.global_views DESC, chapter.id DESC LIMIT 20');
+	$req->execute();
+	$lstChapters = $req->fetchAll();
+	?>
+	<div class="columns slideshow-container">
+		<div class="column flex-center is-1"><a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a></div>
+		<div class="column">
+			<?php 
+			for($i=0; $i<count($lstChapters); $i=$i+5) 
+			{
+				?>
+				<div class="columns is-multiline mySlides2">
+					<?php 
+					for($j=0; $j<5; $j++)
+					{
+						if(isset($lstChapters[$i+$j]))
+						{
+							$chapter = $lstChapters[$i+$j];
+							?>
+							<div class="column is-one-fifth cover_chapter">
+								<a href="chapitre.php?id=<?php echo $chapter['id']; ?>">
+									<img class="mb-1" src="assets/images/story/<?php echo $chapter['id_story']; ?>/<?php echo $chapter['chapitre']; ?>/<?php echo $chapter['cover']; ?>" />
+									<p class="mb-0"><b><?php echo $chapter['titre']; ?></b></p>
+									<p class="mb-0">Chapitre <?php echo $chapter['chapitre']; ?></p>
+								</a>
+							</div>
+							<?php
+						}
+					}
+					?>
+				</div>
+				<?php 
+			}
+			?>
 		</div>
-		
-		<!-- Left and right controls -->
-		<a class="carousel-control-prev" href="#demo2" data-slide="prev">
-			<span class="carousel-control-prev-icon"></span>
-		</a>
-		<a class="carousel-control-next" href="#demo2" data-slide="next">
-			<span class="carousel-control-next-icon"></span>
-		</a>
+		<div class="column flex-center is-1"><a class="next" onclick="plusSlides(1, 1)">&#10095;</a></div>
 	</div>
+
 	<hr>
-	<div id="demo3" class="carousel slide" data-ride="carousel">
-		<h1>Dernière sorties</h1> 
-		<!-- The slideshow -->
-		<div class="container carousel-inner no-padding">
-			<div class="carousel-item active">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div> 
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Elle était si forte</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Aventure</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Titre</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-			</div>
-			<div class="carousel-item">
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div>    
-				<div class="col-xs-3 col-sm-3 col-md-3">
-					<img src="assets/images/6.jpg">
-					<h3>Histoire de la vie</h3>
-					<p>lkfnslknfd </p>
-				</div>   
-			</div>
+
+	<h1>Dernière sorties</h1> 
+	<?php
+	// Liste des dernières sorties
+	$req = $idcom->prepare('SELECT chapter.id as id, id_story, chapter.chapitre as chapitre, chapter.cover as cover, story.title as titre FROM chapter, story WHERE id_story = story.id ORDER BY chapter.id DESC LIMIT 20');
+	$req->execute();
+	$lstChapters = $req->fetchAll();
+	?>
+	<div class="columns slideshow-container">
+		<div class="column flex-center is-1"><a class="prev" onclick="plusSlides(-1, 2)">&#10094;</a></div>
+		<div class="column">
+			<?php 
+			for($i=0; $i<count($lstChapters); $i=$i+5) 
+			{
+				?>
+				<div class="columns is-multiline mySlides3">
+					<?php 
+					for($j=0; $j<5; $j++)
+					{
+						if(isset($lstChapters[$i+$j]))
+						{
+							$chapter = $lstChapters[$i+$j];
+							?>
+							<div class="column is-one-fifth cover_chapter">
+								<a href="chapitre.php?id=<?php echo $chapter['id']; ?>">
+									<img class="mb-1" src="assets/images/story/<?php echo $chapter['id_story']; ?>/<?php echo $chapter['chapitre']; ?>/<?php echo $chapter['cover']; ?>" />
+									<p class="mb-0"><b><?php echo $chapter['titre']; ?></b></p>
+									<p class="mb-0">Chapitre <?php echo $chapter['chapitre']; ?></p>
+								</a>
+							</div>
+							<?php
+						}
+					}
+					?>
+				</div>
+				<?php 
+			}
+			?>
 		</div>
-		
-		<!-- Left and right controls -->
-		<a class="carousel-control-prev" href="#demo3" data-slide="prev">
-			<span class="carousel-control-prev-icon"></span>
-		</a>
-		<a class="carousel-control-next" href="#demo3" data-slide="next">
-			<span class="carousel-control-next-icon"></span>
-		</a>
+		<div class="column flex-center is-1"><a class="next" onclick="plusSlides(1, 2)">&#10095;</a></div>
 	</div>
+
+
 	<?php
 }
 ?>
