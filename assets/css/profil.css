@@ -1,0 +1,51 @@
+.profil{
+    margin-left: 50px !important;
+}
+.profil img{
+    width: 200px !important;
+    height: 200px !important;
+}
+.profil button{
+    margin-left: 21px;
+    margin-top: 5px;
+    border-radius: 15px;
+}
+.profil_infos button{
+    margin-top: 32px;
+    margin-left: 200px;
+}
+.bulles_suivies{
+    padding-left: 50px;
+}
+
+.bulles_suivies img{
+    height: 150px;
+    width: 150px;
+    margin-bottom: 57px;
+}
+
+.bulles_content{
+    padding: 12px;
+    display: inline-block;
+}
+
+.publications{
+    margin-left: 50px !important;
+}
+.commentaires_bloc textarea{
+    border-radius: 30px;
+    width: 100%;
+}
+.commentaires_bloc img{
+    border-radius: 50%;
+}
+.commentaires{
+    display: inline-block;
+}
+.commentaires_bloc  .field p{
+    background-color: white ;
+    padding: 15px;
+    border-radius: 20px;
+    font-style: oblique;
+}
+
