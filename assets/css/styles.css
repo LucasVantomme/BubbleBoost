@@ -218,3 +218,8 @@ html, body {
 .formulaire {
   margin: 0 40px;
 }
+
+.barre {
+  background-color: #7d7c7c !important;
+  border-radius: 50px;
+}

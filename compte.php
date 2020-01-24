@@ -36,9 +36,9 @@ include 'assets/include/header.php';
 
 
 
-<div class="my-publications">
+<div class="my-profile">
 	<h1 class="mb-0">Mon compte</h1>
-    <hr>
+    <hr class="barre">
 
     <div class="informations formulaire">
         <h3>Editer mes informations</h3>
@@ -108,109 +108,118 @@ include 'assets/include/header.php';
                                 <option value="<?php echo $key; ?>" <?php echo isset($_POST['country'])?(($_POST['country'] == $key)?'selected="selected"':''):(($user['country'] == $key)?'selected="selected"':'');
                                 ?> >
                                 <?php echo $value; ?>
-                            </option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                </span>
-                <span class="icon is-small is-left">
-                    <i class="fas fa-globe"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-                <button class="button is-link is-rounded" name="updateInformations">Modifier mes informations</button>
+                                </option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-globe"></i>
+                    </span>
+                </p>
             </div>
-        </div>
-    </form>
-</div>
-
-<hr>
-
-<div class="mail formulaire">
-    <h3>Changer de mail</h3>
-
-    <?php if(isset($result_sendNewMail)) { ?>
-        <p>
-            <?php echo $result_sendNewMail[1]; ?>
-        </p>
-    <?php } ?>
-
-    <form method="POST" action="compte.php">
-        <div class="field">
-            <label for="label">Mot de passe</label>
-            <p class="control has-icons-left">
-                <input class="input" type="password" name="password" placeholder="Mot de passe" />
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field">
-            <label for="lable">Email</label>
-            <p class="control has-icons-left">
-                <input class="input" type="email" name="mail" placeholder="Adresse e-mail" value="<?php echo isset($_POST['mail'])?$_POST['mail']:$user['mail']; ?>" />
-                <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-                <button class="button is-link is-rounded" name="sendNewMail">Envoyer</button>
+            <div class="field">
+                <label for="label">Ajouter un lien Tipeee sur ma page</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="text" name="tipeee" placeholder="Lien Tipeee" value="<?php echo isset($_POST['tipeee'])?$_POST['tipeee']:$user['tipeee']; ?>" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-money-check-alt"></i>
+                    </span>
+                </p>
             </div>
-        </div>
-    </form>
-</div>
-
-<hr>
-
-<div class="password formulaire">
-    <h3>Changer de mot de passe</h3>
-
-    <?php if(isset($result_sendNewPassword)) { ?>
-        <p>
-            <?php echo $result_sendNewPassword[1]; ?>
-        </p>
-    <?php } ?>
-
-    <form method="POST" action="compte.php">
-        <div class="field">
-            <label for="label">Ancien mot de passe</label>
-            <p class="control has-icons-left">
-                <input class="input" type="password" name="oldPassword" placeholder="Ancien mot de passe" />
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field">
-            <label for="label">Nouveau mot de passe</label>
-            <p class="control has-icons-left">
-                <input class="input" type="password" name="newPassword" placeholder="Nouveau mot de passe" />
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field">
-            <label for="label">Confirmation du nouveau mot de passe</label>
-            <p class="control has-icons-left">
-                <input class="input" type="password" name="confirmNewPassword" placeholder="Confirmation du nouveau mot de passe" />
-                <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                </span>
-            </p>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-                <button class="button is-link is-rounded" name="sendNewPassword">Confirmer</button>
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button class="button is-link is-rounded" name="updateInformations">Modifier mes informations</button>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
+
+    <hr class="barre">
+
+    <div class="mail formulaire">
+        <h3>Changer de mail</h3>
+
+        <?php if(isset($result_sendNewMail)) { ?>
+            <p>
+                <?php echo $result_sendNewMail[1]; ?>
+            </p>
+        <?php } ?>
+
+        <form method="POST" action="compte.php">
+            <div class="field">
+                <label for="label">Mot de passe</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="password" name="password" placeholder="Mot de passe" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <label for="lable">Email</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="email" name="mail" placeholder="Adresse e-mail" value="<?php echo isset($_POST['mail'])?$_POST['mail']:$user['mail']; ?>" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button class="button is-link is-rounded" name="sendNewMail">Envoyer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr class="barre">
+
+    <div class="password formulaire">
+        <h3>Changer de mot de passe</h3>
+
+        <?php if(isset($result_sendNewPassword)) { ?>
+            <p>
+                <?php echo $result_sendNewPassword[1]; ?>
+            </p>
+        <?php } ?>
+
+        <form method="POST" action="compte.php">
+            <div class="field">
+                <label for="label">Ancien mot de passe</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="password" name="oldPassword" placeholder="Ancien mot de passe" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <label for="label">Nouveau mot de passe</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="password" name="newPassword" placeholder="Nouveau mot de passe" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <label for="label">Confirmation du nouveau mot de passe</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="password" name="confirmNewPassword" placeholder="Confirmation du nouveau mot de passe" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button class="button is-link is-rounded" name="sendNewPassword">Confirmer</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <?php include 'assets/include/footer.php'; ?>
