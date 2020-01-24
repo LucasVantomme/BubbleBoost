@@ -64,7 +64,7 @@
 }
 .navbar-brand span {
   display: flex;
-  align-items: center;
+  align-items: stretch !important;
 }
 .logo a {
   margin-left: 20px;
@@ -222,4 +222,27 @@ html, body {
 .barre {
   background-color: #7d7c7c !important;
   border-radius: 50px;
+}
+
+.dropdownButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between center;
+}
+
+.dropdownButton a {
+  font-weight: 700;
+  margin-right: 80px;
+  border-radius: 15px;
+  margin: 10px;
+  margin-right: 100px;
+  width: 150px;
+}
+
+.notificationsIcon {
+  background-color: #82c3ff;
+  width: 3rem !important;
+  height: 3rem !important;
+  font-size: 2em;
+  margin-right: 8px;
 }

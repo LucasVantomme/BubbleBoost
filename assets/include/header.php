@@ -49,7 +49,12 @@ include_once 'fonctions.php';
 	// Si le membre est connecté
 	else 
 	{
+		$req = $idcom->prepare('SELECT id, firstname, lastname, username FROM user WHERE id=:id');
+		$req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+		$req->execute();
+		$user = $req->fetch();
 		?>
+
 		<nav class="navbar navbar-expand-lg navbar-light logo">
 			<a class="navbar-brand" href="/BubbleBoost/index.php">
 				<img class="d-inline-block align-top" src="/BubbleBoost/assets/images/logo.png">
@@ -61,8 +66,28 @@ include_once 'fonctions.php';
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item buttonconnex">
-						<a class="button is-rounded is_white is-outlined is-active" href="connexion.php">Deconnexion</a>
+					<li class="nav-item dropdownButton">
+						<span class="icon is-medium notificationsIcon">
+							<i class="fas fa-bell"></i>
+						</span>
+						<div class="dropdown is-right">
+							<div class="dropdown-trigger">
+								<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+									<span>Bienvenue, <?php echo $user['firstname'].' '.$user['lastname']; ?></span>
+									<span class="icon is-small">
+										<i class="fas fa-angle-down" aria-hidden="true"></i>
+									</span>
+								</button>
+							</div>
+							<div class="dropdown-menu" id="dropdown-menu" role="menu">
+								<div class="dropdown-content">
+									<a href="" class="dropdown-item">Ma page</a>
+									<a href="publication.php" class="dropdown-item">Mes publications</a>
+									<a href="compte.php" class="dropdown-item">Mon compte</a>
+									<a href="connexion.php" class="dropdown-item">Deconnexion</a>
+								</div>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</div>
