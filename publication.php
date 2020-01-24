@@ -43,15 +43,6 @@ include 'assets/include/header.php';
 
 
 
-<!-- Style à mettre ensuite dans le .css -->
-<style>
-	.author { font-size: medium!important; margin-left: 50px; }
-	.cover_chapter { text-align: center; }
-	.cover_chapter img { width: 75%; border: 1px solid black; }
-</style>
-
-
-
 <div class="my-publications">
 	<h1 class="mb-0">Publications</h1>
 	<h2 class="mt-1 mb-4 author">de <a href="profil?id=<?php echo $user['id']; ?>"><?php echo $user['firstname'].' '.$user['lastname']; ?></a> <?php echo $connected?'(moi)':''; ?></h2>
@@ -108,7 +99,7 @@ include 'assets/include/header.php';
 			</div>
 			<?php if($connected) { ?>
 				<div class="buttons has-addons is-right">
-					<button class="button is-dark"><span class="icon"><i class="fa fa-plus-square"></i></span><span>Publier un nouveau chapitre</span></button>
+					<a href="histoire.php?id=<?php echo $s['id']; ?>" class="button is-dark" id="modal-chapitre-<?php echo $s['id']; ?>"><span class="icon"><i class="fa fa-plus-square"></i></span><span>Publier un nouveau chapitre</span></a>
 				</div>
 			<?php } ?>
 		</div>

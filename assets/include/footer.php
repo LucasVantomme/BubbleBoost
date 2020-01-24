@@ -39,6 +39,14 @@
 					}
 					slides[slideIndex-1].style.display = "block";
 				}
+
+				$("#modal-supprimer").click(function() {
+					$(".modal-supprimer-chapitre").addClass("is-active");  
+				});
+
+				$(".close-modal").click(function() {
+					$(".modal").removeClass("is-active");
+				});
 			</script>
 			<?php
 		}
@@ -47,6 +55,43 @@
 			<script>
 				$("#modal-histoire").click(function() {
 					$(".modal").addClass("is-active");  
+				});
+
+				$(".close-modal").click(function() {
+					$(".modal").removeClass("is-active");
+				});
+
+				const fileInput = document.querySelector('#story-file input[type=file]');
+				fileInput.onchange = () => {
+					if (fileInput.files.length > 0) {
+						const fileName = document.querySelector('#story-file .file-name');
+						fileName.textContent = fileInput.files[0].name;
+					}
+				}
+			</script>
+			<?php
+		}
+		elseif($page == 'Histoire') {
+			?>
+			<script>
+				var nombre_input = 1;
+
+				function ajouterInput()
+				{
+					var div = document.getElementById('field_images');
+					var e = document.createElement('div');
+					nombre_input += 1;
+					e.innerHTML = '<input type="file" name="images[]" accept="image/*">';
+
+					div.appendChild(e);
+				}
+
+				$("#modal-chapitre").click(function() {
+					$(".modal-chapitre").addClass("is-active");  
+				});
+
+				$("#modal-supprimer").click(function() {
+					$(".modal-supprimer-histoire").addClass("is-active");  
 				});
 
 				$(".close-modal").click(function() {

@@ -1,5 +1,6 @@
 <?php 
 include 'assets/include/bdd-connect.php';
+include 'assets/include/fonctions.php';
 ?>
 
 <?php
@@ -7,14 +8,20 @@ if(!isset($_GET['id']))
 	header('location: index.php');
 else
 {
+
 	$req = $idcom->prepare('SELECT user.id as id_user, firstname, lastname, username, story.id as id_story, chapter.id as id_chapter, story.title as story_title, chapter.title as chapter_title, chapitre, chapter.cover as cover, chapter.publication_date as publication_date FROM story, chapter, user WHERE chapter.id=:id AND story.id=chapter.id_story AND user.id=id_user');
 	$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 	$req->execute();
 	if($chapter = $req->fetch()) {
 
+		if(isset($_POST['supprimer-chapitre'])) {
+			$result_supprimer_chapitre = form_supprimer_chapitre($_POST, $idcom);
+//			if($result_supprimer_chapitre[0]) 
+//				header('location: histoire.php?id='.$chapter['id_story']);
+		}
+
 		if(isset($_POST))
 		{
-			include 'assets/include/fonctions.php';
 			if(isset($_POST['commenter'])) add_commentaire($_POST, $idcom);
 			if(isset($_POST['supprimer'])) del_commentaire($_POST, $idcom);
 			if(isset($_POST['liker'])) liker($_POST, $idcom);
@@ -116,7 +123,11 @@ include 'assets/include/header.php';
 					<p><strong>Genre<?php echo count($chapter['genre'])>1?'s':''; ?> :</strong> <?php echo implode($chapter['genre'], ', '); ?></p>
 					<p><strong>Nombre de chapitres :</strong> <?php echo $chapter['nb_chapter']; ?></p>
 					<p><strong>Date de publication :</strong> <?php echo strftime("%d/%m/%G", strtotime($chapter['publication_date'])); ?></p>
-					<?php if($chapter['id_user'] != $_SESSION['id']) { ?>
+					<?php if($chapter['id_user'] == $_SESSION['id']) { ?>
+						<div class="buttons has-addons is-right">
+							<button class="button is-dark" id="modal-supprimer"><span class="icon"><i class="fa fa-trash"></i></span><span>Supprimer le chapitre</span></button>
+						</div>
+					<?php } else { ?>
 						<form method="POST" action="chapitre.php?id=<?php echo $chapter['id_chapter']; ?>">
 							<div class="buttons has-addons is-right">
 								<?php if($chapter['suivi'] == false) { ?>
@@ -221,9 +232,9 @@ include 'assets/include/header.php';
 											<div class="dropdown-menu" role="menu">
 												<div class="dropdown-content">
 													<?php if($_SESSION['id'] != $comment['id_user']) { ?>
-													<button class="button dropdown-item">
-														<span class="icon"><i class="fas fa-exclamation-triangle"></i></span><span>Signaler</span>
-													</button>
+														<button class="button dropdown-item">
+															<span class="icon"><i class="fas fa-exclamation-triangle"></i></span><span>Signaler</span>
+														</button>
 													<?php } ?>
 													<?php if($role == "admin" OR $_SESSION['id'] == $comment['id_user']) { ?>
 														<form method="POST" action="chapitre.php?id=<?php echo $chapter['id_chapter']; ?>">
@@ -245,6 +256,27 @@ include 'assets/include/header.php';
 				</article>
 			<?php } ?>
 		</div>
+	</div>
+</div>
+
+<!-- Modal pour supprimer un chapitre -->
+<div class="modal modal-supprimer-chapitre">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title">Supprimer un chapitre</p>
+			<button class="delete close-modal" aria-label="close"></button>
+		</header>
+		<section class="modal-card-body">
+			<form method="POST" enctype="multipart/form-data" action="chapitre.php?id=<?php echo $chapter['id_chapter']; ?>">
+				<p>Êtes-vous sûr de vouloir supprimer ce chapître ? Cela entraînera la suppression de tous ses commentaires.</p>
+				<div class="field is-grouped is-grouped-centered">
+					<p class="control">
+						<button class="button is-danger" name="supprimer-chapitre"><span class="icon"><i class="fa fa-minus-square"></i></span><span>Supprimer ce chapitre</span></button>
+					</p>
+				</div>
+			</form>
+		</section>
 	</div>
 </div>
 

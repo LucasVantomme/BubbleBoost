@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le :  mer. 15 jan. 2020 à 00:51
+-- Généré le :  ven. 24 jan. 2020 à 02:10
 -- Version du serveur :  5.7.28-0ubuntu0.18.04.4
--- Version de PHP :  7.2.24-0ubuntu0.18.04.1
+-- Version de PHP :  7.2.24-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
