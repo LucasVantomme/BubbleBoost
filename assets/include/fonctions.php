@@ -132,7 +132,7 @@ function form_inscription($post, $idcom) {
 			$erreur[] = 'Syntaxe du numéro de téléphone incorrecte.';
 	}
 
-		// Vérification du mot de passe
+	// Vérification du mot de passe
 	if (!empty($post['password']) && !empty($post['password2'])) 
 	{
 		$post['password_hash'] = password_hash($post['password'], PASSWORD_DEFAULT);
@@ -536,15 +536,218 @@ function form_supprimer_chapitre($post, $idcom) {
 	
 }
 
+// FORMULAIRE CHANGEMENT INFORMATIONS
+function form_updateInformations($post, $idcom) {
+
+	// Vérification du pseudo
+	if (!empty($post['username'])) 
+	{
+		if (strlen($post['username']) < 3 || strlen($post['username']) > 25) 
+			$erreur[] = 'Votre identifiant doit être compris entre 3 et 25 caractères';
+		if (!preg_match('#^[a-zA-Z0-9_]{3,16}$#', $post['username']))
+			$erreur[] = 'La syntaxe du champ Pseudo est incorrecte. Lettres, chiffres et _ autorisés.';
+		$req = $idcom->prepare('SELECT id, LOWER(username) FROM user WHERE LOWER(username)=LOWER(:username)');
+		$req->bindValue(':username', $post['username'], PDO::PARAM_STR);
+		$req->execute();
+		$loginBdd = $req->fetch();
+		$req->closeCursor();
+		if ($loginBdd AND $_SESSION['id'] != $loginBdd['id'])
+			$erreur[] = "Ce pseudo est déjà utilisé, veuillez en choisir un autre.";
+	}
+	else
+		$erreur[] = "Veuillez remplir le champ Pseudo.";
+
+	// Vérification du nom
+	if (!empty($post['lastname'])) 
+	{
+		if (!preg_match('#^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |\')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |\')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$#iu', $post['lastname']))
+			$erreur [] = "Syntaxe du nom incorrecte";
+	}
+	else
+		$erreur[] = "Veuillez remplir le champ Nom.";
+
+		// Vérification du prénom
+	if (!empty($post['firstname'])) 
+	{
+		if (!preg_match('#^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |\')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |\')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$#iu', $post['firstname']))
+			$erreur[] = "Syntaxe du prénom incorrecte";
+	}
+	else
+		$erreur[] = "Veuillez remplir le champ Prénom.";
+
+		// Vérification de la date de naissance
+	if (!empty($post['birthday'])) 
+	{
+		if(!preg_match('#[0-9]{2}/[0-9]{2}/[0-9]{4}#', $post['birthday']))
+			$erreur[] = 'Syntaxe de la date de naissance incorrecte : JJ/MM/YYYY';
+		else {
+			$birthday = explode('/', $post['birthday']);
+			$post['birthday_correct'] = $birthday[2].'-'.$birthday[1].'-'.$birthday[0];
+			$date_now = new datetime();
+			$date_birthday = new datetime($post['birthday_correct']);
+			if ($date_now <= $date_birthday)
+				$erreur[] = 'Vous ne pouvez pas naître dans le futur ;)';
+			if (!(($date_birthday->diff($date_now))->y >= 13))
+				$erreur[] = 'Vous devez avoir au moins 13 ans';
+		}
+	}
+	else
+		$erreur[] = "Veuillez remplir le champ Date de Naissance.";
+
+	// Vérification du numéro de téléphone
+	if (!empty($post['phone'])) 
+	{
+		if(!preg_match('#[0-9]*#', $post['phone']))
+			$erreur[] = 'Syntaxe du numéro de téléphone incorrecte.';
+	}
+
+	// On réalise, ou non, l'inscription
+	if(!empty($erreur)) 
+	{
+		$erreurForm = '<article class="message is-danger"><div class="message-body">';
+		foreach($erreur as $err)
+			$erreurForm .= $err.'<br />';
+		unset($erreur);
+		$erreurForm .= '</div></article>';
+		return array(false, $erreurForm);
+	}
+	else {
+		$req = $idcom->prepare('UPDATE `user` SET `firstname` = :firstname, `lastname` = :lastname, `username` = :username, `country` = :country, `phone` = :phone, `birthday_date` = :birthday, `tipeee` = :tipeee WHERE `id` = :id_user ');
+		$req->bindValue(':firstname', $post['firstname'], PDO::PARAM_STR);
+		$req->bindValue(':lastname', $post['lastname'], PDO::PARAM_STR);
+		$req->bindValue(':username', $post['username'], PDO::PARAM_STR);
+		$req->bindValue(':country', isset($post['country'])?$post['country']:NULL);
+		$req->bindValue(':phone', isset($post['phone'])?$post['phone']:NULL);
+		$req->bindValue(':birthday', $post['birthday_correct']);
+		$req->bindValue(':tipeee', isset($post['tipee'])?$post['tipee']:NULL);
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		if($req->execute()) {
+			return array(true, '<article class="message is-success">
+				<div class="message-body">
+				Informations modifiées !
+				</div>
+				</article>');
+		}
+	}
+}
+
+// FORMULAIRE METTRE À JOUR E-MAIL
+function form_sendNewMail($post, $idcom) {
+
+	// Vérification de l'email
+	if (!empty($post['mail']))
+	{
+		if (!filter_var($post['mail'], FILTER_VALIDATE_EMAIL))
+			$erreur[] = 'L\'adresse mail doit avoir la forme exemple@bubbleboost.com';
+		$req = $idcom->prepare('SELECT id FROM user WHERE LOWER(mail) = LOWER(:mail)');
+		$req->bindValue(':mail', $post['mail'], PDO::PARAM_STR);
+		$req->execute();
+		$emailBdd = $req->fetch();
+		if ($emailBdd AND $emailBdd['id'] != $_SESSION['id'])
+			$erreur[] = 'L\'adresse mail est déjà utilisée, vous ne pouvez pas la choisir.';
+	}
+	else
+		$erreur[] = "Veuillez remplir le champ Adresse mail.";
+
+	// Vérification du mot de passe
+	if (!empty($post['password'])) 
+	{
+		$req = $idcom->prepare('SELECT password FROM user WHERE id = :id_user');
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		$req->execute();
+		if(!password_verify($post['password'], $req->fetch()['password']))
+			$erreur[] = "Le mot de passe est incorrect";
+	}
+	else 
+		$erreur[] = "Veuillez remplir le champ Mot de passe.";
+
+	if(!empty($erreur)) 
+	{
+		$erreurForm = '<article class="message is-danger"><div class="message-body">';
+		foreach($erreur as $err)
+			$erreurForm .= $err.'<br />';
+		unset($erreur);
+		$erreurForm .= '</div></article>';
+		return array(false, $erreurForm);
+	}
+	else {
+		$req = $idcom->prepare('UPDATE `user` SET `mail` = :mail WHERE `id` = :id_user');
+		$req->bindValue(':mail', $post['mail'], PDO::PARAM_STR);
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		if($req->execute()) {
+			return array(true, '<article class="message is-success">
+				<div class="message-body">
+				Adresse e-mail modifiée !
+				</div>
+				</article>');
+		}
+	}
+
+}
+
+// FORMULAIRE METTRE À JOUR MOT DE PASSE
+function form_sendNewPassword($post, $idcom) {
+
+	// Vérification du mot de passe
+	if (!empty($post['oldPassword']) && !empty($post['newPassword']) && !empty($post['confirmNewPassword'])) 
+	{
+
+		// Ancien mot de passe
+		$req = $idcom->prepare('SELECT password FROM user WHERE id = :id_user');
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		$req->execute();
+		if(!password_verify($post['oldPassword'], $req->fetch()['password']))
+			$erreur[] = "Le mot de passe actuel n'est pas le bon.";
+		else
+		{
+			if($post['newPassword'] != $post['confirmNewPassword'])
+				$erreur[] = "La confirmation du Mot de Passe n'est pas correcte.";
+			else
+			{
+				$post['password_hash'] = password_hash($post['newPassword'], PASSWORD_DEFAULT);
+				if (strlen($post['newPassword']) < 6) 
+					$erreur[] = "Votre mot de passe doit faire au moins 6 caractères";
+			}
+		}
+	}
+	else 
+		$erreur[] = "Veuillez remplir les trois champs Mot de passe.";
+	
+	if(!empty($erreur)) 
+	{
+		$erreurForm = '<article class="message is-danger"><div class="message-body">';
+		foreach($erreur as $err)
+			$erreurForm .= $err.'<br />';
+		unset($erreur);
+		$erreurForm .= '</div></article>';
+		return array(false, $erreurForm);
+	}
+	else {
+		$req = $idcom->prepare('UPDATE `user` SET `password` = :password WHERE `id` = :id_user');
+		$req->bindValue(':password', $post['password_hash'], PDO::PARAM_STR);
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		if($req->execute()) {
+			return array(true, '<article class="message is-success">
+				<div class="message-body">
+				Mot de passe modifié !
+				</div>
+				</article>');
+		}
+	}
+
+}
+
+
+
 function rmRecursive($path) {
-    $path = realpath($path);
-    chmod($path, 777);
-    if(!file_exists($path))
-        throw new RuntimeException('Fichier ou dossier non-trouvé');
-    if(is_dir($path)) {
-        $dir = dir($path);
-        while(($file_in_dir = $dir->read()) !== false) {
-            if($file_in_dir == '.' or $file_in_dir == '..')
+	$path = realpath($path);
+	chmod($path, 777);
+	if(!file_exists($path))
+		throw new RuntimeException('Fichier ou dossier non-trouvé');
+	if(is_dir($path)) {
+		$dir = dir($path);
+		while(($file_in_dir = $dir->read()) !== false) {
+			if($file_in_dir == '.' or $file_in_dir == '..')
                 continue; // passage au tour de boucle suivant
             rmRecursive("$path/$file_in_dir");
         }
