@@ -214,3 +214,7 @@ html, body {
 .cover_story img { border: 1px solid black; }
 .cover_chapter { text-align: center; }
 .cover_chapter img { width: 75%; border: 1px solid black; }
+
+.formulaire {
+  margin: 0 40px;
+}
