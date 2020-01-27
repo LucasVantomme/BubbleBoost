@@ -737,6 +737,47 @@ function form_sendNewPassword($post, $idcom) {
 
 }
 
+// CHANGER D'AVATAR
+function form_changer_avatar($file, $idcom) {
+
+	if(!isset($file['avatar']))
+		$erreur[] = "Veuillez choisir une image pour changer d'avatar.";
+	elseif($file['avatar']['error'] === 1)
+		$erreur[] = "Image trop lourde.";
+	else
+	{
+		$ext = strtolower(pathinfo($file['avatar']['name'], PATHINFO_EXTENSION));
+		$cover = $_SESSION['id'].'.'.$ext;
+
+		$check = getimagesize($file["avatar"]["tmp_name"]);
+		if(!($check !== false && in_array($ext, array('gif', 'png', 'jpg', 'jpeg'))))
+			$erreur[] = "L'image doit être au format .gif, .png ou .jpg";
+	}
+
+	if(!isset($erreur))
+	{
+		if($_SESSION['avatar'] != "default.jpg")
+			unlink("assets/images/avatar/".$_SESSION['avatar']);
+
+		$req = $idcom->prepare('UPDATE user SET avatar=:avatar WHERE id=:id_user');
+		$req->bindValue(':avatar', $cover, PDO::PARAM_STR);
+		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		$req->execute();
+
+		$target_file = "assets/images/avatar/".$cover;
+		move_uploaded_file($file["avatar"]["tmp_name"], $target_file);
+
+		return array(true, '<article class="message is-success"><div class="message-body">Avatar changé avec succès !</div></article>');
+	}
+	else {
+		$erreurForm = '<article class="message is-danger"><div class="message-body">';
+		foreach($erreur as $err)
+			$erreurForm .= $err.'<br />';
+		unset($erreur);
+		$erreurForm .= '</div></article>';
+		return array(false, $erreurForm);
+	}
+}
 
 
 function rmRecursive($path) {

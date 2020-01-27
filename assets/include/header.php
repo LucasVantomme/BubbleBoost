@@ -53,7 +53,7 @@ include_once 'fonctions.php';
 		$req = $idcom->prepare('SELECT id, firstname, lastname, username FROM user WHERE id=:id');
 		$req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
 		$req->execute();
-		$user = $req->fetch();
+		$userheader = $req->fetch();
 		?>
 
 		<nav class="navbar navbar-expand-lg navbar-light logo">
@@ -74,7 +74,7 @@ include_once 'fonctions.php';
 						<div class="dropdown is-right">
 							<div class="dropdown-trigger">
 								<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-									<span>Bienvenue, <?php echo $user['firstname'].' '.$user['lastname']; ?></span>
+									<span>Bienvenue, <?php echo $userheader['firstname'].' '.$userheader['lastname']; ?></span>
 									<span class="icon is-small">
 										<i class="fas fa-angle-down" aria-hidden="true"></i>
 									</span>

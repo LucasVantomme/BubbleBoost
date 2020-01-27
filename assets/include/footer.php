@@ -143,6 +143,27 @@
 			</script>
 			<?php
 		}
+		elseif($page == 'Profil') {
+			?>
+			<script>
+				$("#modal-avatar").click(function() {
+					$(".modal").addClass("is-active");  
+				});
+
+				$(".close-modal").click(function() {
+					$(".modal").removeClass("is-active");
+				});
+
+				const fileInput = document.querySelector('#user-file input[type=file]');
+				fileInput.onchange = () => {
+					if (fileInput.files.length > 0) {
+						const fileName = document.querySelector('#user-file .file-name');
+						fileName.textContent = fileInput.files[0].name;
+					}
+				}
+			</script>
+			<?php
+		}
 		?>
 
 	</body>

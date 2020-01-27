@@ -95,19 +95,6 @@ include 'assets/include/header.php';
 ?>
 
 
-<!-- Style à mettre ensuite dans le .css -->
-<style>
-	.cover_chapter img { border: 1px solid black; }
-	.author_story { font-size: medium!important; margin-left: 50px; }
-	.slideshow-container { position: relative; margin: auto; }
-	.prev, .next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -22px; color: white; font-weight: bold; font-size: 18px; transition: 0.6s ease; border-radius: 0 3px 3px 0; user-select: none; }
-	.prev:hover, .next:hover { background-color: rgba(0,0,0,0.8); }
-	.numbertext { color: gray; font-size: 12px; padding-top: 10px; position: absolute; right: 0; left: 0; margin: auto; width: 300px; text-align: center; }
-	.media-left { margin-bottom: 0!important; }
-	.dropdown-button, .dropdown-content button { border: 0; }
-	.dropdown-menu, .dropdown-content { padding: 0; }
-</style>
-
 <div class="tile is-ancestor">
 	<div class="tile is-parent">
 		<div class="tile is-child box">
@@ -118,7 +105,7 @@ include 'assets/include/header.php';
 				</div>
 				<div class="column">
 					<h1 class="mb-0"><a href="histoire.php?id=<?php echo $chapter['id_story']; ?>"><?php echo $chapter['story_title']; ?></a></h1>
-					<h2 class="mt-1 mb-4 author_story">par <a href="profil?id=<?php echo $chapter['id_user']; ?>"><?php echo $chapter['firstname'].' '.$chapter['lastname']; ?></a></h2>
+					<h2 class="mt-1 mb-4 author_story">par <a href="profil.php?id=<?php echo $chapter['id_user']; ?>"><?php echo $chapter['firstname'].' '.$chapter['lastname']; ?></a></h2>
 					<p><strong><?php echo $chapter['nb_suivi']; ?> personne<?php echo $chapter['nb_suivi']>1?'s':''; ?></strong> <?php echo $chapter['nb_suivi']>1?'suivent':'suit'; ?> cette histoire</p>
 					<p><strong>Genre<?php echo count($chapter['genre'])>1?'s':''; ?> :</strong> <?php echo implode($chapter['genre'], ', '); ?></p>
 					<p><strong>Nombre de chapitres :</strong> <?php echo $chapter['nb_chapter']; ?></p>
@@ -213,7 +200,7 @@ include 'assets/include/header.php';
 							<nav class="level mb-0">
 								<div class="level-left">
 									<div class="level-item">
-										<strong><a href="profil?id=<?php echo $comment['id_user']; ?>"><?php echo $comment['firstname'].' '.$comment['lastname']; ?></a></strong>
+										<strong><a href="profil.php?id=<?php echo $comment['id_user']; ?>"><?php echo $comment['firstname'].' '.$comment['lastname']; ?></a></strong>
 									</div>
 									<div class="level-item">
 										<small><?php echo strftime("%d/%m/%G %H:%M", strtotime($comment['comment_date'])); ?></small>

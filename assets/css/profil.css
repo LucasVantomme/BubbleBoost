@@ -14,13 +14,9 @@
     margin-top: 32px;
     margin-left: 200px;
 }
-.bulles_suivies{
-    padding-left: 50px;
-}
 
-.bulles_suivies img{
+.liste_histoires img{
     height: 150px;
-    width: 150px;
     margin-bottom: 57px;
 }
 

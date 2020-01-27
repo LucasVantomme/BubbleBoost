@@ -40,7 +40,7 @@ if (!isset($_SESSION['id']))
     else 
     {
         // S'il a les cookies
-        $req = $idcom->prepare('SELECT id, username, token FROM user WHERE username = :username AND password = :password');
+        $req = $idcom->prepare('SELECT id, username, avatar, token FROM user WHERE username = :username AND password = :password');
         $req->bindValue(':username', $_COOKIE['username'], PDO::PARAM_STR);
         $req->bindValue(':password', $_COOKIE['password'], PDO::PARAM_STR);
         $req->execute();
@@ -59,6 +59,7 @@ if (!isset($_SESSION['id']))
             // Ouverture de session
             $_SESSION['id'] = $membre['id'];
             $_SESSION['username'] = $membre['username'];
+            $_SESSION['avatar'] = $membre['avatar'];
         }
         else 
         {

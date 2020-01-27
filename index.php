@@ -109,16 +109,6 @@ if(!isset($_SESSION['id']))
 else
 {
 	?>
-	<style>
-		.flex-center
-		{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-	</style>
-	
-
 
 	<center>
 		<div class="field">
