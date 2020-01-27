@@ -5,7 +5,7 @@
 				<span class="text-muted">BubbleBoost 2019-2020</span>
 			</div>
 			<div>
-				<div><a href="#">Conditions générales</a></div>
+				<div><a href="mentions-legales.php">Conditions générales</a></div>
 				<div>Contact : <a href="mailto:bubbleboost.help@gmail.com">bubbleboost.help@gmail.com</a></div>
 			</div>
 		</footer>

@@ -5,7 +5,7 @@ include 'assets/include/fonctions.php';
 if(!isset($_GET['id']))
 {
 	$page = 'Compte';
-	$titre = 'Mon compte';
+	$titre = 'BubbleBoost - Mon compte';
 	$user_id = $_SESSION['id'];
 
 	if(isset($_POST['updateInformations'])) {

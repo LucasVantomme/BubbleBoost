@@ -46,9 +46,9 @@ if($user = $req->fetch()) {
     $user['comments'] = $req->fetchAll();
     
     if(!$connected)
-        $titre = 'Profil - '.$user['firstname'].' '.$user['lastname'];
+        $titre = 'BubbleBoost - Profil de '.$user['firstname'].' '.$user['lastname'];
     else
-        $titre = 'Mon Profil';
+        $titre = 'BubbleBoost - Mon Profil';
 }
 else
     header('location: profil.php');

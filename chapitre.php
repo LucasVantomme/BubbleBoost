@@ -85,7 +85,7 @@ else
 		$chapter['comments'] = $req->fetchAll();
 		
 		$page = 'Chapitre';
-		$titre = $chapter['story_title'].' - Chapitre '.$chapter['chapitre'];
+		$titre = 'BubbleBoost - '.$chapter['story_title'].' (Chapitre '.$chapter['chapitre'].')';
 	}
 	else
 		header('location: index.php');

@@ -5,7 +5,7 @@ include 'assets/include/fonctions.php';
 if(!isset($_GET['id']) OR $_GET['id'] == $_SESSION['id'])
 {
 	$page = 'Publications';
-	$titre = 'Mes publications';
+	$titre = 'BubbleBoost - Mes publications';
 	$connected = true;
 	$user_id = $_SESSION['id'];
 
@@ -32,7 +32,7 @@ if($user = $req->fetch()) {
 	$story = $req->fetchAll();
 	
 	$page = 'Publications';
-	$titre = 'Publications - '.$user['firstname'].' '.$user['lastname'];
+	$titre = 'BubbleBoost - Publications de '.$user['firstname'].' '.$user['lastname'];
 
 }
 else

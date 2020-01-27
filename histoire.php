@@ -74,7 +74,7 @@ else
 			$story['genre'][] = $g['genre'];
 		
 		$page = 'Histoire';
-		$titre = $story['title'];
+		$titre = 'BubbleBoost - '.$story['title'];
 	}
 	else
 		header('location: index.php');
