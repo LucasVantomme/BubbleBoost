@@ -1,4 +1,5 @@
 <?php 
+$page = 'Chapitre';
 include 'assets/include/bdd-connect.php';
 include 'assets/include/fonctions.php';
 ?>
@@ -16,8 +17,12 @@ else
 
 		if(isset($_POST['supprimer-chapitre'])) {
 			$result_supprimer_chapitre = form_supprimer_chapitre($_POST, $idcom);
-//			if($result_supprimer_chapitre[0]) 
-//				header('location: histoire.php?id='.$chapter['id_story']);
+			if($result_supprimer_chapitre[0]) 
+				header('location: histoire.php?id='.$chapter['id_story']);
+		}
+
+		if(isset($_POST['signaler'])) {
+			$result_signaler = signaler_commentaire($_POST, $idcom);
 		}
 
 		if(isset($_POST))
@@ -84,7 +89,6 @@ else
 		$req->execute();
 		$chapter['comments'] = $req->fetchAll();
 		
-		$page = 'Chapitre';
 		$titre = 'BubbleBoost - '.$chapter['story_title'].' (Chapitre '.$chapter['chapitre'].')';
 	}
 	else
@@ -94,6 +98,12 @@ else
 include 'assets/include/header.php';
 ?>
 
+<?php
+if(isset($result_signaler))
+{
+	echo $result_signaler[1];
+}
+?>
 
 <div class="tile is-ancestor">
 	<div class="tile is-parent">
@@ -189,7 +199,7 @@ include 'assets/include/header.php';
 				</div>
 			</article>
 			<?php foreach($chapter['comments'] as $comment) { ?>
-				<article class="media">
+				<article class="media" id="comment<?php echo $comment['id_comment']; ?>">
 					<figure class="media-left">
 						<p class="image is-64x64">
 							<img src="assets/images/avatar/<?php echo $comment['avatar']; ?>">
@@ -219,9 +229,11 @@ include 'assets/include/header.php';
 											<div class="dropdown-menu" role="menu">
 												<div class="dropdown-content">
 													<?php if($_SESSION['id'] != $comment['id_user']) { ?>
-														<button class="button dropdown-item">
-															<span class="icon"><i class="fas fa-exclamation-triangle"></i></span><span>Signaler</span>
-														</button>
+														<form method="POST" action="chapitre.php?id=<?php echo $chapter['id_chapter']; ?>">
+															<button class="button dropdown-item" name="signaler" value="<?php echo $comment['id_comment']; ?>">
+																<span class="icon"><i class="fas fa-exclamation-triangle"></i></span><span>Signaler</span>
+															</button>
+														</form>
 													<?php } ?>
 													<?php if($role == "admin" OR $_SESSION['id'] == $comment['id_user']) { ?>
 														<form method="POST" action="chapitre.php?id=<?php echo $chapter['id_chapter']; ?>">

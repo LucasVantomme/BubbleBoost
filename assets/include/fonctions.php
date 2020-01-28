@@ -1,9 +1,11 @@
 <?php
 
 // FORMULAIRE CONNEXION
-function form_connexion($post, $idcom) {
-	if(!empty($post['identifiant']) && !empty($post['password'])) {
-		$req = $idcom->prepare('SELECT id, username, password, token FROM user WHERE username = :username OR mail = :username');
+function form_connexion($post, $idcom)
+{
+	if(!empty($post['identifiant']) && !empty($post['password']))
+	{
+		$req = $idcom->prepare('SELECT id, username, password, avatar, token FROM user WHERE username = :username OR mail = :username');
 		$req->bindValue(':username', $post['identifiant'], PDO::PARAM_STR);
 		$req->execute();
 		$membre = $req->fetch();
@@ -20,9 +22,11 @@ function form_connexion($post, $idcom) {
 				}
 				$_SESSION['id'] = $membre['id'];
 				$_SESSION['username'] = $membre['username'];
+				$_SESSION['avatar'] = $membre['avatar'];
 				setCookie('username', $membre['username'], (time()+60*60*24*60));
 				setCookie('password', $membre['password'], (time()+60*60*24*60));
-				echo '<script>setTimeout(function () { window.location.href = "index.php"; }, 2000);</script>';
+				echo '<script>setTimeout(function ()
+				{ window.location.href = "index.php"; }, 2000);</script>';
 
 				return array(true, '<article class="message is-success">
 					<div class="message-body">
@@ -53,7 +57,8 @@ function form_connexion($post, $idcom) {
 }
 
 // FORMULAIRE INSCRIPTION
-function form_inscription($post, $idcom) {
+function form_inscription($post, $idcom)
+{
 
 	// Vérification de l'email
 	if (!empty($post['email'])) 
@@ -164,7 +169,8 @@ function form_inscription($post, $idcom) {
 		$req->bindValue(':birthday', $post['birthday_correct']);
 		$req->bindValue(':email', $post['email'], PDO::PARAM_STR);
 		$req->bindValue(':password', $post['password_hash'], PDO::PARAM_STR);
-		if($req->execute()) {
+		if($req->execute())
+		{
 			include('assets/vendor/phpmailer/sendemail.php');
 			$subject = "Bienvenue sur BubbleBoost !";
 			$body = '<p>Bienvenue sur BubbleBoost, '.$post['username'].' !</p><p>Grâce à votre compte, vous allez enfin pouvoir accéder à toutes les fonctionnalités du site !</p><p>Vous ne savez pas par où commencer ? Dans votre profil, ajoutez par exemple une photo de profil ! Pourquoi ne pas remplir quelques informations supplémentaires en plus ? Ensuite, regardez le catalogue de mangas et BDs que vous allez pouvoir suivre ou commenter ! Bref, il y a tant de chose à faire et à découvrir sur BubbleBoost.</p><p>Merci de vous être enregistré, et à bientôt.</p>';
@@ -182,16 +188,20 @@ function form_inscription($post, $idcom) {
 }
 
 // FORMULAIRE MOT DE PASSE OUBLIÉ 1
-function form_oubliemdp1($post, $idcom) {
-	if(isset($post['email'])) {
+function form_oubliemdp1($post, $idcom)
+{
+	if(isset($post['email']))
+	{
 		// On regarde si l'email est bien dans la BDD avant d'envoyer un lien de réinitialisation du password
 		$req = $idcom->prepare('SELECT mail, username FROM user WHERE mail=:email');
 		$req->bindValue(':email', $post['email'], PDO::PARAM_STR);
 		$req->execute();
-		if($membre = $req->fetch()) {
+		if($membre = $req->fetch())
+		{
 			// Si oui, on créé une clé unique, qu'on enregistre dans la BDD, qui va servir à réinitialiser le mot de passe
 			$unique = false;
-			while(!$unique) {
+			while(!$unique)
+			{
 				$keyuniq = uniqid();
 				echo $keyuniq;
 				$req_unique = $idcom->prepare('SELECT 1 FROM user WHERE token=:keyuniq');
@@ -241,9 +251,11 @@ function form_oubliemdp1($post, $idcom) {
 }
 
 // FORMULAIRE MOT DE PASSE OUBLIÉ 2
-function form_oubliemdp2($post, $idcom) {
+function form_oubliemdp2($post, $idcom)
+{
 	// Vérification pour les mots de passe
-	if (!empty($post['password']) && !empty($post['password2'])) {
+	if (!empty($post['password']) && !empty($post['password2']))
+	{
 		if (strlen($post['password']) < 6) $erreur[] = "Votre mot de passe doit faire au moins 6 caractères";
 		else {
 			if ($post['password'] != $post['password2']) $erreur[] = "Les mots de passe ne sont pas identiques";
@@ -251,12 +263,14 @@ function form_oubliemdp2($post, $idcom) {
 		}
 	}
 	else $erreur[] = "Veuillez remplir les deux champs Mot de passe.";
-	if (!isset($erreur)) {
+	if (!isset($erreur))
+	{
 		$req = $idcom->prepare('UPDATE user SET password=:password, token=NULL WHERE token=:token');
 		$req->bindValue(':password', $password, PDO::PARAM_STR);
 		$req->bindValue(':token', $_GET['keyuniq'], PDO::PARAM_STR);
 		$req->execute();
-		echo '<script>setTimeout(function () { window.location.href = "connexion.php"; }, 2000);</script>';
+		echo '<script>setTimeout(function ()
+		{ window.location.href = "connexion.php"; }, 2000);</script>';
 		return array(true, '<aritcle class="message is-success">
 			<div class="message-body">
 			Mot de passe changé avec succès ! Vous pouvez désormais vous connecter.
@@ -273,19 +287,44 @@ function form_oubliemdp2($post, $idcom) {
 }
 
 // COMMENTER UN CHAPITRE
-function add_commentaire($post, $idcom) {
-	if (!empty($post['commentaire'])) {
+function add_commentaire($post, $idcom)
+{
+	if (!empty($post['commentaire']))
+	{
 		$req = $idcom->prepare('INSERT INTO `comment` (`id`, `id_user`, `id_chapter`, `comment_date`, `comment`) VALUES (NULL, :id_user, :id_chapitre, CURRENT_TIMESTAMP, :commentaire)');
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
 		$req->bindValue(':id_chapitre', $_GET['id'], PDO::PARAM_INT);
 		$req->bindValue(':commentaire', $post['commentaire'], PDO::PARAM_STR);
 		$req->execute();
+
+		// Informations sur l'histoire
+		$req = $idcom->prepare('SELECT id_user, id_story, chapitre, chapter.title as title FROM story, chapter WHERE chapter.id = :id AND id_story = story.id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+
+		$auteur = $tmp['id_user'];
+		
+		// On envoie une notification si ce n'est pas l'auteur qui a écrit le commentaire
+		if($_SESSION['id'] != $auteur)
+		{
+			$id_story = $tmp['id_story'];
+			$tmp_user = getUser($_SESSION['id'], $idcom);
+			$tmp_story = getStory($id_story, $idcom);
+			$titre = $tmp_user['firstname'].' '.$tmp_user['lastname'].' a écrit un commentaire';
+			$description = '<strong>'.$tmp_story['title'].'</strong> - Chapitre '.$tmp['chapitre'].(!empty($tmp['title'])?(' : '.$tmp['title']):(''));
+			$link = 'chapitre.php?id='.$_GET['id'];
+
+			sendNotif($_SESSION['id'], $auteur, $titre, $description, $link, $idcom);
+		}
 	}
 }
 
 // SUPPRIMER UN COMMENTAIRE D'UN CHAPITRE
-function del_commentaire($post, $idcom) {
-	if (!empty($post['supprimer'])) {
+function del_commentaire($post, $idcom)
+{
+	if (!empty($post['supprimer']))
+	{
 
 				// On vérifie de qui est le commentaire
 		$req = $idcom->prepare('SELECT id_user FROM comment WHERE id = :id');
@@ -293,14 +332,15 @@ function del_commentaire($post, $idcom) {
 		$req->execute();
 		$id_user = $req->fetch()['id_user'];
 
-				// On vérifie qui est celui qui veut supprimer
+		// On vérifie qui est celui qui veut supprimer
 		$req = $idcom->prepare('SELECT role FROM user WHERE id = :id');
 		$req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
 		$req->execute();
 		$role = $req->fetch()['role'];
 
-				// Si le membre est admin ou auteur du commentaire, on supprime
-		if($role == 'admin' OR $id_user == $_SESSION['id']) {
+		// Si le membre est admin ou auteur du commentaire, on supprime
+		if($role == 'admin' OR $id_user == $_SESSION['id'])
+		{
 			$req = $idcom->prepare('DELETE FROM comment WHERE id = :id');
 			$req->bindValue(':id', $post['supprimer'], PDO::PARAM_INT);
 			$req->execute();
@@ -308,37 +348,115 @@ function del_commentaire($post, $idcom) {
 	}
 }
 
-// SUIVRE UNE HISTOIRE
-function liker($post, $idcom) {
-		// On vérifie de qui est l'histoire
-	$req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id AND id_story = story.id');
-	$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
-	$req->execute();
-	$tmp = $req->fetch();
-	$id_user = $tmp['id_user'];
-	$id_story = $tmp['id_story'];
+// SIGNALER UN COMMENTAIRE
+function signaler_commentaire($post, $idcom)
+{
+	if (!empty($post['signaler']))
+	{
 
-		// Si le membre n'est pas l'auteur, il peut liker
-	if($id_user != $_SESSION['id']) {
+		// Information sur l'histoire
+		$req = $idcom->prepare('SELECT id_story, chapitre, title FROM chapter WHERE id = :id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+		$id_story = $tmp['id_story'];
+		$chapitre = $tmp['chapitre'];
+		$title = $tmp['title'];
+
+		// Informations sur le commentaire
+		$req = $idcom->prepare('SELECT comment FROM comment WHERE id = :id');
+		$req->bindValue(':id', $post['signaler'], PDO::PARAM_INT);
+		$req->execute();
+		$comment = $req->fetch()['comment'];
+
+		// Autres informations
+		$tmp_user = getUser($_SESSION['id'], $idcom);
+		$tmp_story = getStory($id_story, $idcom);
+		$titre = $tmp_user['firstname'].' '.$tmp_user['lastname'].' a signalé un commentaire';
+		$description = '<strong>'.$tmp_story['title'].'</strong> - Chapitre '.$chapitre.(!empty($title)?(' : '.$title):('')).'<br />Contenu : <i>'.$comment.'</i>';
+		$link = 'chapitre.php?id='.$_GET['id'].'#comment'.$post['signaler'];
+		
+		// On envoie une notification à tous les modérateurs
+		$req = $idcom->prepare('SELECT id FROM user WHERE role = "admin"');
+		$req->execute();
+		while($admin = $req->fetch())
+		{
+			sendNotif($_SESSION['id'], $admin['id'], $titre, $description, $link, $idcom);
+		}
+
+		return array(true, '<article class="message is-success"><div class="message-body">Commentaire signalé !</div></article>');
+	}
+}
+
+// SUIVRE UNE HISTOIRE
+function liker($post, $idcom)
+{
+	if($GLOBALS['page'] == "Chapitre")
+	{
+		// On vérifie de qui est l'histoire
+		$req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id AND id_story = story.id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+		$id_user = $tmp['id_user'];
+		$id_story = $tmp['id_story'];
+	}
+	elseif($GLOBALS['page'] == "Histoire")
+	{
+		// On vérifie de qui est l'histoire
+		$req = $idcom->prepare('SELECT id_user, id FROM story WHERE story.id = :id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+		$id_user = $tmp['id_user'];
+		$id_story = $tmp['id'];
+	}
+
+	// Si le membre n'est pas l'auteur, il peut liker
+	if($id_user != $_SESSION['id'])
+	{
 		$req = $idcom->prepare('INSERT INTO `bulles_suivies` (`id_user`, `id_story`) VALUES (:id_user, :id_story)');
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
 		$req->bindValue(':id_story', $id_story, PDO::PARAM_INT);
 		$req->execute();
+
+		// Et on envoie une notification à l'auteur
+		$tmp_user = getUser($_SESSION['id'], $idcom);
+		$tmp_story = getStory($id_story, $idcom);
+		$titre = $tmp_user['firstname'].' '.$tmp_user['lastname'].' suit l\'une de vos histoires';
+		$description = '<strong>'.$tmp_story['title'].'</strong>';
+		$link = 'histoire.php?id='.$id_story;
+		sendNotif($_SESSION['id'], $id_user, $titre, $description, $link, $idcom);
 	}
 }
 
 // NE PLUS SUIVRE UNE HISTOIRE
-function disliker($post, $idcom) {
+function disliker($post, $idcom)
+{
+	if($GLOBALS['page'] == "Chapitre")
+	{
 		// On vérifie de qui est l'histoire
-	$req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id_chapter AND id_story = story.id');
-	$req->bindValue(':id_chapter', $_GET['id'], PDO::PARAM_INT);
-	$req->execute();
-	$tmp = $req->fetch();
-	$id_user = $tmp['id_user'];
-	$id_story = $tmp['id_story'];
+		$req = $idcom->prepare('SELECT id_user, id_story FROM chapter, story WHERE chapter.id = :id AND id_story = story.id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+		$id_user = $tmp['id_user'];
+		$id_story = $tmp['id_story'];
+	}
+	elseif($GLOBALS['page'] == "Histoire")
+	{
+		// On vérifie de qui est l'histoire
+		$req = $idcom->prepare('SELECT id_user, id FROM story WHERE story.id = :id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+		$tmp = $req->fetch();
+		$id_user = $tmp['id_user'];
+		$id_story = $tmp['id'];
+	}
 
-		// Si le membre n'est pas l'auteur, il peut disliker
-	if($id_user != $_SESSION['id']) {
+	// Si le membre n'est pas l'auteur, il peut disliker
+	if($id_user != $_SESSION['id'])
+	{
 		$req = $idcom->prepare('DELETE FROM bulles_suivies WHERE id_user = :id_user AND id_story = :id_story');
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
 		$req->bindValue(':id_story', $id_story, PDO::PARAM_INT);
@@ -347,7 +465,8 @@ function disliker($post, $idcom) {
 }
 
 // PUBLIER UNE NOUVELLE HISTOIRE
-function form_publier_histoire($post, $file, $idcom) {
+function form_publier_histoire($post, $file, $idcom)
+{
 
 		// On vérifie que tous les champs sont remplis et sont corrects
 
@@ -413,7 +532,8 @@ function form_publier_histoire($post, $file, $idcom) {
 }
 
 // SUPPRIMER UNE HISTOIRE
-function form_supprimer_histoire($post, $idcom) {
+function form_supprimer_histoire($post, $idcom)
+{
 
 	// Suppression de l'histoire
 	$req = $idcom->prepare('DELETE FROM story WHERE id = :id_story');
@@ -427,7 +547,8 @@ function form_supprimer_histoire($post, $idcom) {
 }
 
 // PUBLIER UN NOUVEAU CHAPITRE
-function form_publier_chapitre($post, $file, $idcom) {
+function form_publier_chapitre($post, $file, $idcom)
+{
 
 	// On vérifie que tous les champs sont remplis et sont corrects
 	if(!isset($file['couverture']))
@@ -446,13 +567,15 @@ function form_publier_chapitre($post, $file, $idcom) {
 
 	for($i=0; $i<count($file['images']['name']); $i++)
 	{
-		if($file['images']['error'][$i] === 1) {
+		if($file['images']['error'][$i] === 1)
+		{
 			$erreur[] = "L'une des images du chapitre dépasse le poids autorisé.";
 			break;
 		}
 		$extimg = strtolower(pathinfo($file['images']['name'][$i], PATHINFO_EXTENSION));
 		$checkimg = getimagesize($file['images']['tmp_name'][$i]);
-		if(!($checkimg !== false && in_array($extimg, array('gif', 'png', 'jpg', 'jpeg')))) {
+		if(!($checkimg !== false && in_array($extimg, array('gif', 'png', 'jpg', 'jpeg'))))
+		{
 			$erreur[] = "L'une des images du chapitre n'est pas au format .gif, .png ou .jpg";
 			break;
 		}
@@ -500,6 +623,26 @@ function form_publier_chapitre($post, $file, $idcom) {
 				$target_file = "assets/images/story/".$_GET['id']."/".$prochainchap.'/'.($i+1).'.'.$extimg;
 				move_uploaded_file($file['images']["tmp_name"][$i], $target_file);
 			}
+
+			// Auteur de l'histoire
+			$req = $idcom->prepare('SELECT id_user FROM story WHERE id = :id_story');
+			$req->bindValue(':id_story', $_GET['id'], PDO::PARAM_INT);
+			$req->execute();
+			$id_user = $req->fetch()['id_user'];
+			$tmp_user = getUser($id_user, $idcom);
+			$tmp_story = getStory($_GET['id'], $idcom);
+			$titre = $tmp_user['firstname'].' '.$tmp_user['lastname'].' a publié un nouveau chapitre';
+			$description = '<strong>'.$tmp_story['title'].'</strong> - Chapitre '.$prochainchap.(!empty($post['titre'])?(' : '.$post['titre']):(''));
+			$link = 'chapitre.php?id='.$last_id;
+			
+			// Et on envoie une notification à ceux qui suivent l'histoire
+			$req = $idcom->prepare('SELECT id_user FROM bulles_suivies WHERE id_story = :id_story');
+			$req->bindValue(':id_story', $_GET['id'], PDO::PARAM_INT);
+			$req->execute();
+			while($suivi = $req->fetch())
+			{
+				sendNotif($_SESSION['id'], $suivi['id_user'], $titre, $description, $link, $idcom);
+			}
 		}
 
 		return array(true, '<article class="message is-success"><div class="message-body">Chapitre ajouté à cette histoire !</div></article>');
@@ -515,7 +658,8 @@ function form_publier_chapitre($post, $file, $idcom) {
 }
 
 // SUPPRIMER UN CHAPITRE
-function form_supprimer_chapitre($post, $idcom) {
+function form_supprimer_chapitre($post, $idcom)
+{
 
 	// On récupère l'ID de l'histoire et le numéro du chapitre
 	$req = $idcom->prepare('SELECT id_story, chapitre FROM chapter WHERE id = :id_chapter');
@@ -537,7 +681,8 @@ function form_supprimer_chapitre($post, $idcom) {
 }
 
 // FORMULAIRE CHANGEMENT INFORMATIONS
-function form_updateInformations($post, $idcom) {
+function form_updateInformations($post, $idcom)
+{
 
 	// Vérification du pseudo
 	if (!empty($post['username'])) 
@@ -621,7 +766,8 @@ function form_updateInformations($post, $idcom) {
 		$req->bindValue(':birthday', $post['birthday_correct']);
 		$req->bindValue(':tipeee', isset($post['tipee'])?$post['tipee']:NULL);
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
-		if($req->execute()) {
+		if($req->execute())
+		{
 			return array(true, '<article class="message is-success">
 				<div class="message-body">
 				Informations modifiées !
@@ -632,7 +778,8 @@ function form_updateInformations($post, $idcom) {
 }
 
 // FORMULAIRE METTRE À JOUR E-MAIL
-function form_sendNewMail($post, $idcom) {
+function form_sendNewMail($post, $idcom)
+{
 
 	// Vérification de l'email
 	if (!empty($post['mail']))
@@ -674,7 +821,8 @@ function form_sendNewMail($post, $idcom) {
 		$req = $idcom->prepare('UPDATE `user` SET `mail` = :mail WHERE `id` = :id_user');
 		$req->bindValue(':mail', $post['mail'], PDO::PARAM_STR);
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
-		if($req->execute()) {
+		if($req->execute())
+		{
 			return array(true, '<article class="message is-success">
 				<div class="message-body">
 				Adresse e-mail modifiée !
@@ -686,7 +834,8 @@ function form_sendNewMail($post, $idcom) {
 }
 
 // FORMULAIRE METTRE À JOUR MOT DE PASSE
-function form_sendNewPassword($post, $idcom) {
+function form_sendNewPassword($post, $idcom)
+{
 
 	// Vérification du mot de passe
 	if (!empty($post['oldPassword']) && !empty($post['newPassword']) && !empty($post['confirmNewPassword'])) 
@@ -726,7 +875,8 @@ function form_sendNewPassword($post, $idcom) {
 		$req = $idcom->prepare('UPDATE `user` SET `password` = :password WHERE `id` = :id_user');
 		$req->bindValue(':password', $post['password_hash'], PDO::PARAM_STR);
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
-		if($req->execute()) {
+		if($req->execute())
+		{
 			return array(true, '<article class="message is-success">
 				<div class="message-body">
 				Mot de passe modifié !
@@ -738,7 +888,8 @@ function form_sendNewPassword($post, $idcom) {
 }
 
 // CHANGER D'AVATAR
-function form_changer_avatar($file, $idcom) {
+function form_changer_avatar($file, $idcom)
+{
 
 	if(!isset($file['avatar']))
 		$erreur[] = "Veuillez choisir une image pour changer d'avatar.";
@@ -779,15 +930,50 @@ function form_changer_avatar($file, $idcom) {
 	}
 }
 
+// SUPPRIMER LES NOTIFICATIONS
+function form_delnotif($post, $idcom)
+{
 
-function rmRecursive($path) {
+	$req = $idcom->prepare('UPDATE notification SET open=1 WHERE id_user_dest = :id_user');
+	$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+	$req->execute();
+	
+}
+
+function form_opennotif($post, $idcom)
+{
+
+	// On récupère les informations de la notification
+	$req = $idcom->prepare('SELECT link FROM notification WHERE id = :id AND id_user_dest = :id_user AND open = 0');
+	$req->bindValue(':id', $post['opennotif'], PDO::PARAM_INT);
+	$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+	$req->execute();
+
+	// Si cette notification existe, qu'elle est non-lue et est de lui
+	if($notif = $req->fetch())
+	{
+		$link = $notif['link'];
+
+		// On la note comme Lue
+		$req = $idcom->prepare('UPDATE notification SET open=1 WHERE id = :id');
+		$req->bindValue(':id', $post['opennotif'], PDO::PARAM_INT);
+		$req->execute();
+
+		return array(true, $link);
+	}
+	
+}
+
+function rmRecursive($path)
+{
 	$path = realpath($path);
+	echo $path;
 	chmod($path, 777);
-	if(!file_exists($path))
-		throw new RuntimeException('Fichier ou dossier non-trouvé');
-	if(is_dir($path)) {
+	if(is_dir($path))
+	{
 		$dir = dir($path);
-		while(($file_in_dir = $dir->read()) !== false) {
+		while(($file_in_dir = $dir->read()) !== false)
+		{
 			if($file_in_dir == '.' or $file_in_dir == '..')
                 continue; // passage au tour de boucle suivant
             rmRecursive("$path/$file_in_dir");
@@ -795,4 +981,33 @@ function rmRecursive($path) {
         $dir->close();
     }
     unlink($path);
+}
+
+function getUser($id, $idcom)
+{
+	$req = $idcom->prepare('SELECT * FROM user WHERE id = :id');
+	$req->bindValue(':id', $id, PDO::PARAM_INT);
+	$req->execute();
+	$result = $req->fetch();
+	return $result;
+}
+
+function getStory($id, $idcom)
+{
+	$req = $idcom->prepare('SELECT * FROM story WHERE id = :id');
+	$req->bindValue(':id', $id, PDO::PARAM_INT);
+	$req->execute();
+	$result = $req->fetch();
+	return $result;
+}
+
+function sendNotif($id_exp, $id_dest, $titre, $description, $link, $idcom)
+{
+	$req = $idcom->prepare('INSERT INTO `notification` (`id`, `id_user_exp`, `id_user_dest`, `notification_date`, `titre`, `description`, `link`, `open`) VALUES (NULL, :id_exp, :id_dest, CURRENT_TIMESTAMP, :titre, :description, :link, 0)');
+	$req->bindValue(':id_exp', $id_exp, PDO::PARAM_INT);
+	$req->bindValue(':id_dest', $id_dest, PDO::PARAM_INT);
+	$req->bindValue(':titre', $titre, PDO::PARAM_STR);
+	$req->bindValue(':description', $description, PDO::PARAM_STR);
+	$req->bindValue(':link', $link, PDO::PARAM_STR);
+	$req->execute();
 }

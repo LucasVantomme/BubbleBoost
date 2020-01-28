@@ -18,7 +18,7 @@
   .puzzle-slider, .puzzle-slider img {
     width: 50%;
   }
-  .logo a img{
+  .logo {
     width: 70px;
   }
   .titre h2{
@@ -66,17 +66,10 @@
   display: flex;
   align-items: stretch !important;
 }
-.logo a {
-  margin-left: 20px;
-}
-.logo a img{
+.logo {
   width: 70px;
   position: relative;
   margin-top: 0px;
-}
-.logo  span{
-  font-family: 'Roboto Mono', monospace;
-  width: 70px;
 }
 body {
   background-image: url('../images/fond.jpg');
@@ -255,7 +248,7 @@ html, body {
 .numbertext { color: gray; font-size: 12px; padding-top: 10px; position: absolute; right: 0; left: 0; margin: auto; width: 300px; text-align: center; }
 .media-left { margin-bottom: 0!important; }
 .dropdown-button, .dropdown-content button { border: 0; }
-.dropdown-menu, .dropdown-content { padding: 0; }
+.dropdown-menu, .dropdown-content { padding: 0; padding-top: 0!important; }
 .media-content p { background-color: white;padding: 10px;border-radius: 15px;margin-bottom: 5px;margin-top: 5px; }
 
 .flex-center
@@ -263,4 +256,21 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-link {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    color: #0000EE;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.avatar-bords
+{
+  border-radius: 10px;
 }

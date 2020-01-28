@@ -1,7 +1,7 @@
 <?php 
+$page = 'Histoire';
 include 'assets/include/bdd-connect.php';
 include 'assets/include/fonctions.php';
-
 
 if(!isset($_GET['id']))
 	header('location: index.php');
@@ -18,6 +18,9 @@ else
 		$result_publier_chapitre = form_publier_chapitre($_POST, $_FILES, $idcom);
 		if($result_publier_chapitre[0]) unset($_POST);
 	}
+
+	if(isset($_POST['liker'])) liker($_POST, $idcom);
+	if(isset($_POST['disliker'])) disliker($_POST, $idcom);
 
 
 	$req = $idcom->prepare('SELECT user.id as id_user, firstname, lastname, username, story.id as id_story, title, cover, synopsis, publication_date FROM story, user WHERE story.id=:id AND user.id=id_user');
@@ -52,11 +55,11 @@ else
 		$story['chapters'] = $req->fetchAll();
 		
 		// Histoire suivie ?
-		$req = $idcom->prepare('SELECT 1 FROM bulles_suivies WHERE id_story = :id_story AND id_user = :id_user');
+		$req = $idcom->prepare('SELECT * FROM bulles_suivies WHERE id_story = :id_story AND id_user = :id_user');
 		$req->bindValue(':id_story', $story['id_story'], PDO::PARAM_INT);
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
 		$req->execute();
-		if($req->fetch() !== false) $story['suivi'] = true;
+		if($req->fetch()) $story['suivi'] = true;
 		else $story['suivi'] = false;
 
 		// Nombre de suivis
@@ -73,7 +76,6 @@ else
 		while($g = $req->fetch())
 			$story['genre'][] = $g['genre'];
 		
-		$page = 'Histoire';
 		$titre = 'BubbleBoost - '.$story['title'];
 	}
 	else
