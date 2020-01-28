@@ -53,7 +53,7 @@ include_once 'fonctions.php';
 		$req = $idcom->prepare('SELECT id, firstname, lastname, username FROM user WHERE id=:id');
 		$req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
 		$req->execute();
-		$user = $req->fetch();
+		$userheader = $req->fetch();
 		?>
 		<!--Navbar 
 		<nav class="mb-1 navbar navbar-expand-lg navbar-dark secondary-color lighten-1">
@@ -183,7 +183,7 @@ include_once 'fonctions.php';
 					
       				<div class="navbar-item has-dropdown is-hoverable">
 						<a class="navbar-item">
-							Bienvenu, <strong><?php echo $user['firstname'].' '.$user['lastname']; ?></strong>
+							Bienvenu, <strong><?php echo $userheader['firstname'].' '.$userheader['lastname']; ?></strong>
 							<figure class="image is-48x48">
 								<img class="is-rounded" src="/BubbleBoost/assets/images/avatar/johnsnow.jpg">
 							</figure>

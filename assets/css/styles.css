@@ -213,7 +213,7 @@ html, body {
 .author_story { font-size: medium!important; margin-left: 50px; }
 .cover_story img { border: 1px solid black; }
 .cover_chapter { text-align: center; }
-.cover_chapter img { width: 75%; border: 1px solid black; }
+.cover_chapter img { height: 150px; border: 1px solid black; }
 
 .formulaire {
   margin: 0 40px;
