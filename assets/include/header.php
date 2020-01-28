@@ -163,13 +163,23 @@ include_once 'fonctions.php';
 			</div>
 		</nav> -->
 		<nav class="navbar" role="navigation" aria-label="main navigation">
-  			
-			<div class="navbar-brand" href="index.php">
-      			<img src="/BubbleBoost/assets/images/logo.png" width="100" height="100">
-  			</div>
-
+  			<div class="navbar-brand">
+			  	<a class="navbar-item" href="index.php">
+      				<img src="/BubbleBoost/assets/images/logo.png" width="100" height="100">
+  				</a>
+			</div>
+		
   			<div class="navbar-menu">
     			<div class="navbar-end">
+					<a class="navbar-item" href="notification.php">
+						<strong>1</strong>
+						<span class="icon is-large">
+							<span class="fa-stack">
+								<i class="fas fa-circle fa-stack-2x has-text-info"></i>
+								<i class="fas fa-bell fa-stack-1x fa-inverse"></i>
+							</span>
+						</span>
+					</a>
 					
       				<div class="navbar-item has-dropdown is-hoverable">
 						<a class="navbar-item">
@@ -189,7 +199,7 @@ include_once 'fonctions.php';
 								<strong>MON COMPTE</strong>
 							</a>
 							<hr class="navbar-divider">
-							<a class="navbar-item is-active" href="index.php">
+							<a class="navbar-item is-active" href="connexion.php">
 								Déconnexion
 							</a>
 						</div>
