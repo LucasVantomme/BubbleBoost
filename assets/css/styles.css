@@ -61,6 +61,7 @@
 }
 .navbar{
   background-color: white !important;
+  height: 90px!important;
 }
 .navbar-brand span {
   display: flex;
@@ -71,6 +72,7 @@
   position: relative;
   margin-top: 0px;
 }
+
 body {
   background-image: url('../images/fond.jpg');
   background-repeat: no-repeat;
@@ -86,6 +88,7 @@ body {
   margin-bottom: 0!important;
   background-color: whitesmoke;
   padding: 20px;
+  min-height: calc(100vh - 90px - 70px);
 }
 .container .row {
   margin: 5px;
@@ -199,7 +202,8 @@ footer > div {
 }
 html, body {
 	height: 100%;
-	margin: 0; padding: 0;
+	margin: 0;
+  padding: 0;
 }
 
 .author { font-size: medium!important; margin-left: 50px; }
