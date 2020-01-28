@@ -259,8 +259,8 @@ html, body {
 .media-content p { background-color: white;padding: 10px;border-radius: 15px;margin-bottom: 5px;margin-top: 5px; }
 
 .flex-center
-    {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
