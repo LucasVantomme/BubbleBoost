@@ -28,6 +28,10 @@ else
 	$req->execute();
 	if($story = $req->fetch()) {
 		
+		$req = $idcom->prepare('UPDATE story SET period_views=period_views+1, global_views=global_views+1 WHERE id=:id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+
 		// Nombre de chapitres
 		$req = $idcom->prepare('SELECT COUNT(*) as nb_chapter FROM chapter WHERE id_story = :id_story');
 		$req->bindValue(':id_story', $story['id_story'], PDO::PARAM_INT);

@@ -15,6 +15,14 @@ else
 	$req->execute();
 	if($chapter = $req->fetch()) {
 
+		$req = $idcom->prepare('UPDATE chapter SET period_views=period_views+1, global_views=global_views+1 WHERE id=:id');
+		$req->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+		$req->execute();
+
+		$req = $idcom->prepare('UPDATE story SET period_views=period_views+1, global_views=global_views+1 WHERE id=:id');
+		$req->bindValue(':id', $chapter['id_story'], PDO::PARAM_INT);
+		$req->execute();
+
 		if(isset($_POST['supprimer-chapitre'])) {
 			$result_supprimer_chapitre = form_supprimer_chapitre($_POST, $idcom);
 			if($result_supprimer_chapitre[0]) 

@@ -28,6 +28,9 @@ function form_connexion($post, $idcom)
 				echo '<script>setTimeout(function ()
 				{ window.location.href = "index.php"; }, 2000);</script>';
 
+				// On réinitialise period-views si ça fait un mois
+				check_period_views($idcom);
+
 				return array(true, '<article class="message is-success">
 					<div class="message-body">
 					Connexion réussie ! Vous allez être redirigés.
@@ -269,6 +272,7 @@ function form_oubliemdp2($post, $idcom)
 		$req->bindValue(':password', $password, PDO::PARAM_STR);
 		$req->bindValue(':token', $_GET['keyuniq'], PDO::PARAM_STR);
 		$req->execute();
+		setCookie('password', $password, (time()+60*60*24*60));
 		echo '<script>setTimeout(function ()
 		{ window.location.href = "connexion.php"; }, 2000);</script>';
 		return array(true, '<aritcle class="message is-success">
@@ -875,6 +879,7 @@ function form_sendNewPassword($post, $idcom)
 		$req = $idcom->prepare('UPDATE `user` SET `password` = :password WHERE `id` = :id_user');
 		$req->bindValue(':password', $post['password_hash'], PDO::PARAM_STR);
 		$req->bindValue(':id_user', $_SESSION['id'], PDO::PARAM_INT);
+		setCookie('password', $post['password_hash'], (time()+60*60*24*60));
 		if($req->execute())
 		{
 			return array(true, '<article class="message is-success">
@@ -917,6 +922,7 @@ function form_changer_avatar($file, $idcom)
 
 		$target_file = "assets/images/avatar/".$cover;
 		move_uploaded_file($file["avatar"]["tmp_name"], $target_file);
+		$_SESSION['avatar'] = $cover;
 
 		return array(true, '<article class="message is-success"><div class="message-body">Avatar changé avec succès !</div></article>');
 	}
@@ -983,6 +989,17 @@ function rmRecursive($path)
     unlink($path);
 }
 
+function sendNotif($id_exp, $id_dest, $titre, $description, $link, $idcom)
+{
+	$req = $idcom->prepare('INSERT INTO `notification` (`id`, `id_user_exp`, `id_user_dest`, `notification_date`, `titre`, `description`, `link`, `open`) VALUES (NULL, :id_exp, :id_dest, CURRENT_TIMESTAMP, :titre, :description, :link, 0)');
+	$req->bindValue(':id_exp', $id_exp, PDO::PARAM_INT);
+	$req->bindValue(':id_dest', $id_dest, PDO::PARAM_INT);
+	$req->bindValue(':titre', $titre, PDO::PARAM_STR);
+	$req->bindValue(':description', $description, PDO::PARAM_STR);
+	$req->bindValue(':link', $link, PDO::PARAM_STR);
+	$req->execute();
+}
+
 function getUser($id, $idcom)
 {
 	$req = $idcom->prepare('SELECT * FROM user WHERE id = :id');
@@ -1001,13 +1018,35 @@ function getStory($id, $idcom)
 	return $result;
 }
 
-function sendNotif($id_exp, $id_dest, $titre, $description, $link, $idcom)
+function check_period_views($idcom)
 {
-	$req = $idcom->prepare('INSERT INTO `notification` (`id`, `id_user_exp`, `id_user_dest`, `notification_date`, `titre`, `description`, `link`, `open`) VALUES (NULL, :id_exp, :id_dest, CURRENT_TIMESTAMP, :titre, :description, :link, 0)');
-	$req->bindValue(':id_exp', $id_exp, PDO::PARAM_INT);
-	$req->bindValue(':id_dest', $id_dest, PDO::PARAM_INT);
-	$req->bindValue(':titre', $titre, PDO::PARAM_STR);
-	$req->bindValue(':description', $description, PDO::PARAM_STR);
-	$req->bindValue(':link', $link, PDO::PARAM_STR);
-	$req->execute();
+	$file = fopen('last-period-views.txt', 'r+');
+	
+	$last_date = fgets($file);
+	$date_actu = date('m/Y');
+	$tab_last_date = explode("/", $last_date);
+	$tab_date_actu = explode("/", $date_actu);
+	$change = false;
+
+	if($tab_last_date[1] < $tab_date_actu[1])
+		$change = true;
+	else
+	{
+		if($tab_last_date[0] < $tab_date_actu[0])
+			$change = true;
+		else
+			$change = false;
+	}
+
+	if($change)
+	{
+		fseek($file, 0);
+		fputs($file, $date_actu);
+
+		$req = $idcom->prepare('UPDATE story SET period_views=0');
+		$req->execute();
+
+		$req = $idcom->prepare('UPDATE chapter SET period_views=0');
+		$req->execute();
+	}
 }

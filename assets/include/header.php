@@ -10,10 +10,10 @@ include_once 'fonctions.php';
 <head>
 	<meta charset="UTF-8">
 	<title><?php echo $titre; ?></title>
-	<link rel="stylesheet" href="/BubbleBoost/assets/css/styles.css">
-	<?php if($page == "Profil") { ?> <link rel="stylesheet" href="/BubbleBoost/assets/css/profil.css"> <?php } ?>
-	<?php if($page == "Publications") { ?> <link rel="stylesheet" href="/BubbleBoost/assets/css/mes-publications.css"> <?php } ?>
-	<?php if($page == "Accueil") { ?> <link rel="stylesheet" href="/BubbleBoost/assets/css/accueil.css"> <?php } ?>
+	<link rel="stylesheet" href="assets/css/styles.css">
+	<?php if($page == "Profil") { ?> <link rel="stylesheet" href="assets/css/profil.css"> <?php } ?>
+	<?php if($page == "Publications") { ?> <link rel="stylesheet" href="assets/css/mes-publications.css"> <?php } ?>
+	<?php if($page == "Accueil") { ?> <link rel="stylesheet" href="assets/css/accueil.css"> <?php } ?>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
@@ -26,8 +26,8 @@ include_once 'fonctions.php';
 	if(!isset($_SESSION['id'])) {
 		?>
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<a class="navbar-brand" href="/BubbleBoost/index.php">
-				<img class="d-inline-block align-top logo" src="/BubbleBoost/assets/images/logo.png">
+			<a class="navbar-brand" href="index.php">
+				<img class="d-inline-block align-top logo" src="assets/images/logo.png">
 				<div class="flex-center ml-2">BubbleBoost</div>
 			</a>
 
@@ -55,8 +55,8 @@ include_once 'fonctions.php';
 		?>
 
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<a class="navbar-brand" href="/BubbleBoost/index.php">
-				<img class="d-inline-block align-top logo" src="/BubbleBoost/assets/images/logo.png">
+			<a class="navbar-brand" href="index.php">
+				<img class="d-inline-block align-top logo" src="assets/images/logo.png">
 				<div class="flex-center ml-2">BubbleBoost</div>
 			</a>
 
