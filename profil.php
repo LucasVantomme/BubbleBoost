@@ -64,7 +64,7 @@ if(isset($result_publier_histoire[1]))
 <div class="row profil">
     <div class="col-4">
         <img src="assets/images/avatar/<?php echo $user['avatar']; ?>" alt="Avatar de  <?php echo $user['firstname'].' '.$user['lastname']; ?>" class="img-thumbnail">
-        <button type="button" id="modal-avatar" class="btn btn-info">Changer de photo</button>
+        <?php if($connected) { ?><button type="button" id="modal-avatar" class="btn btn-info">Changer de photo</button><?php } ?>
     </div>
     <div class="col-8">
         <h1><?php echo $user['firstname'].' '.$user['lastname']; ?></h1>
@@ -72,7 +72,7 @@ if(isset($result_publier_histoire[1]))
         <div class="profil_infos">
             <p>Suit <?php echo count($user['suivis'])>1?count($user['suivis']).' histoires':count($user['suivis']).' histoire'; ?> actuellement</p>
             <p>A publié <?php echo count($user['story'])>1?count($user['story']).' histoires':count($user['story']).' histoire'; ?></p>
-            <button type="button" class="btn btn-info">Modifier mes informations</button>
+            <?php if($connected) { ?><button type="button" class="btn btn-info">Modifier mes informations</button><?php } ?>
         </div> 
     </div>
 </div>
