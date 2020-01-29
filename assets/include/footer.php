@@ -49,6 +49,69 @@
 					}
 					x[slideIndex[no]-1].style.display = "flex";  
 				}
+
+				$(document).on('keyup', 'input[name="select-membre"]', function() {
+					var recherche = $(this).val();
+					if(recherche != "") {
+						$('#titre-recherches').css('display', 'block');
+						$('#titre-recherches').html('Membres correspondant à : ' + recherche);
+						$('#recherches').css('display', 'block');
+						
+						$.ajax('assets/ajax/searchMembres.php', {
+							type: 'POST',
+							data: 'recherche=' + recherche,
+							success: function(data) {
+								$("#recherches").html(data);
+							}
+						});
+					}
+					else {
+						$('#titre-recherches').css('display', 'none');
+						$('#recherches').css('display', 'none');
+					}
+				});
+
+				$(document).on('keyup', 'input[name="select-histoire"]', function() {
+					var recherche = $(this).val();
+					if(recherche != "") {
+						$('#titre-recherches').css('display', 'block');
+						$('#titre-recherches').html('Histoires correspondant à : ' + recherche);
+						$('#recherches').css('display', 'block');
+						
+						$.ajax('assets/ajax/searchHistoires.php', {
+							type: 'POST',
+							data: 'recherche=' + recherche,
+							success: function(data) {
+								$("#recherches").html(data);
+							}
+						});
+					}
+					else {
+						$('#titre-recherches').css('display', 'none');
+						$('#recherches').css('display', 'none');
+					}
+				});
+
+				$(document).on('keyup', 'input[name="select-chapitre"]', function() {
+					var recherche = $(this).val();
+					if(recherche != "") {
+						$('#titre-recherches').css('display', 'block');
+						$('#titre-recherches').html('Chapitres correspondant à : ' + recherche);
+						$('#recherches').css('display', 'block');
+						
+						$.ajax('assets/ajax/searchChapitres.php', {
+							type: 'POST',
+							data: 'recherche=' + recherche,
+							success: function(data) {
+								$("#recherches").html(data);
+							}
+						});
+					}
+					else {
+						$('#titre-recherches').css('display', 'none');
+						$('#recherches').css('display', 'none');
+					}
+				});
 			</script>
 			<?php
 		}

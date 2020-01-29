@@ -110,16 +110,37 @@ else
 {
 	?>
 
-	<center>
-		<div class="field">
-			<p class="control has-icons-left">
-				<input class="input" type="text" placeholder="Recherche un bulle">
+	<h1>Modules de recherche</h1> 
+	<div class="columns">
+		<div class="column is-4">
+			<div class="control has-icons-left">
+				<input class="input" type="text" name="select-membre" placeholder="Membres">
 				<span class="icon is-small is-left">
 					<i class="fas fa-search"></i>
 				</span>
-			</p>
+			</div>
 		</div>
-	</center>
+		<div class="column is-4">
+			<div class="control has-icons-left">
+				<input class="input" type="text" name="select-histoire" placeholder="Histoires">
+				<span class="icon is-small is-left">
+					<i class="fas fa-search"></i>
+				</span>
+			</div>
+		</div>
+		<div class="column is-4">
+			<div class="control has-icons-left">
+				<input class="input" type="text" name="select-chapitre" placeholder="Chapitres">
+				<span class="icon is-small is-left">
+					<i class="fas fa-search"></i>
+				</span>
+			</div>
+		</div>
+	</div>
+	<h2 id="titre-recherches" class="display-none mt-0"></h2>
+	<div id="recherches" class="display-none"></div>
+
+	<hr>
 
 	<h1>Reprendre la lecture</h1> 
 	<?php

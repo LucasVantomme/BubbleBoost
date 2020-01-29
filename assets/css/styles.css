@@ -278,3 +278,8 @@ html, body {
 {
   border-radius: 10px;
 }
+
+.display-none
+{
+  display: none;
+}
