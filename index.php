@@ -76,28 +76,28 @@ if(!isset($_SESSION['id']))
 				<p class="title">Nous suivre</p>
 				<div class="columns">
 					<div class="column">
-						<button class="button is-link is-large is-outlined is-fullwidth"> 
+						<a target="_blank" href="https://www.facebook.com/BubbleBoost-103290247903585/" class="button is-link is-large is-outlined is-fullwidth"> 
 							<span class="icon">
 								<i class="fab fa-facebook"></i>
 							</span>
 							<span>Facebook</span>
-						</button>
+						</a>
 					</div>
 					<div class="column">
-						<button class="button is-primary is-large is-outlined is-fullwidth"> 
+						<a target="_blank" href="https://twitter.com/boost_bubble" class="button is-primary is-large is-outlined is-fullwidth"> 
 							<span class="icon">
 								<i class="fab fa-twitter"></i>
 							</span>
 							<span>Twitter</span>
-						</button>
+						</a>
 					</div>
 					<div class="column">
-						<button class="button is-black is-large is-outlined is-fullwidth"> 
+						<a target="_blank" href="https://www.instagram.com/bubbleboost_/ " class="button is-black is-large is-outlined is-fullwidth"> 
 							<span class="icon">
 								<i class="fab fa-instagram"></i>
 							</span>
 							<span>Instagram</span>
-						</button>
+						</a>
 					</div>
 				</div>
 			</div>
